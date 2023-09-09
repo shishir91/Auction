@@ -7,7 +7,7 @@ const userModel = connection.define(
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false,
+            allowNull: true,
             autoIncrement: true,
         },
         name:{
