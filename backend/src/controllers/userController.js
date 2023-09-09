@@ -54,9 +54,9 @@ export default class UserController {
                 });
                 if (data) {
                     req.session.user_email = data.email;
-                    return res.json({ success: true, message: "Registration successfully" });
+                    return res.json({ success: true, message: "Registration successfully", email: data.email});
                 } else {
-                    return res.json({ success: false, message: "Error while adding user" });
+                    return res.json({ success: false, message: "Error while adding user"});
                 }
             } else {
                 return res.json({ success: false, message: "Password didn't match" });
