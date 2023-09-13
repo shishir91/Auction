@@ -44,6 +44,10 @@ export default class ItemController {
         const { id } = req.params;
         if (id) {
             const data = await itemModel.findByPk({id, raw: true});
+            for (let d of data) {
+                d.image = "http://localhost:5000/uploads/" + d.image
+                console.log(d.image);
+            }
             data ? res.json(data) : res.json({ message: "No data found" });
         } else {
             res.json({ success: false, message: "Item ID not provided" });
