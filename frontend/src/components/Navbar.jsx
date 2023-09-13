@@ -25,22 +25,20 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" aria-current="page" to="/home">Home</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Link</a>
-              </li>
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Categories
-                </a>
+                </Link>
                 <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Categories</a></li>
-                  <li><a className="dropdown-item" href="#">Collections</a></li>
-                  <li><a className="dropdown-item" href="#">Watch List</a></li>
-                  <li><a className="dropdown-item" href="#">Item for Sale</a></li>
+                  <li><Link className="dropdown-item" to="/drawing">Drawing</Link></li>
+                  <li><Link className="dropdown-item" to="/painting">Painting</Link></li>
+                  <li><Link className="dropdown-item" to="/photographic">Photographic Images</Link></li>
+                  <li><Link className="dropdown-item" to="/sculptures">Sculptures</Link></li>
+                  <li><Link className="dropdown-item" to="/carvings">Carvings</Link></li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Setting</a>
+                <Link className="nav-link" to="#">Settings</Link>
               </li>
             </ul>
 
@@ -55,7 +53,7 @@ const Navbar = () => {
                   aria-describedby="basic-addon2"
                 />
                 <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" style={{"width": "4rem"}} type="button">
+                  <button className="btn btn-outline-secondary mx-3" style={{"width": "4rem"}} type="button">
                     <BsSearch />
                   </button>
                 </div>
