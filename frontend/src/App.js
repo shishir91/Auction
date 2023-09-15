@@ -10,6 +10,8 @@ import Painting from './pages/Painting';
 import Sculptures from './pages/Sculptures';
 import Photographic from './pages/Photographic';
 import Bidding from './components/Bidding';
+import Admin from './components/Admin';
+import UserDashboard from './components/UserDashboard';
 
 function App() {
   return (
@@ -21,12 +23,15 @@ function App() {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup/>} />
           <Route exact path='/home' element={<Home/>} />
+          <Route exact path='/' element={<Home/>} />
           <Route exact path='/drawing' element={<Drawing/>} />
           <Route exact path='/carvings' element={<Carvings/>} />
           <Route exact path='/painting' element={<Painting/>} />
           <Route exact path='/sculptures' element={<Sculptures/>} />
           <Route exact path='/photographic' element={<Photographic/>}/>
           <Route exact path='/bidding' element={<Bidding/>} />
+          <Route exact path='/admin' element={<Admin/>} />
+          <Route exact path='/dashboard' element={<UserDashboard/>} />
         </Routes>
       </Router>
     </>
