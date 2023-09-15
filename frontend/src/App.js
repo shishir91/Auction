@@ -11,7 +11,8 @@ import Sculptures from './pages/Sculptures';
 import Photographic from './pages/Photographic';
 import Bidding from './components/Bidding';
 import Admin from './components/Admin';
-import UserDashboard from './components/UserDashboard';
+import UserDashboard from './components/UserDashboard/UserDashboard';
+import AuctionPanel from './components/UserDashboard/AuctionPanel';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route exact path='/bidding' element={<Bidding/>} />
           <Route exact path='/admin' element={<Admin/>} />
           <Route exact path='/dashboard' element={<UserDashboard/>} />
+          <Route exact path='/auctionpanel' element={<AuctionPanel/>} />
         </Routes>
       </Router>
     </>

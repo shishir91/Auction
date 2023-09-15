@@ -1,0 +1,15 @@
+.Auction_Button {
+    background-color: aqua;
+    border: 3px solid rgb(235, 53, 37);
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out
+}
+
+.Auction_Button:hover {
+    background-color: azure;
+    color: black;
+    border: 3px solid rgb(235, 53, 37);
+    font-weight: bold;
+    transform: translateX(15px 15px);
+    transform: scale(1.1);
+}
