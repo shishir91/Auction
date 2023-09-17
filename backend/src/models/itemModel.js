@@ -10,11 +10,23 @@ const userModel = connection.define(
             allowNull: false,
             autoIncrement: true,
         },
+        lotNumber:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         name:{
             type: DataTypes.STRING,
             allowNull: false,
         },
         artist:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        producedYear:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        subjectClassification:{
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -45,10 +57,6 @@ const userModel = connection.define(
         dimension:{
             type: DataTypes.STRING,
             allowNull: true,
-        },
-        lotNumber:{
-            type: DataTypes.STRING,
-            allowNull: false,
         },
         auctionDate:{
             type: DataTypes.DATEONLY,

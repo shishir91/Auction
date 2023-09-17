@@ -22,6 +22,8 @@ router.post("/add", imageUpload, itemController.addItem);
 
 router.get("/", itemController.getAllItems);
 
+router.get("/category", itemController.getItemsByCategory);
+
 router.get("/:id", itemController.getItemByID);
 
 router.get("/search/all", itemController.searchItem);
