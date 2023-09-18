@@ -17,7 +17,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 var imageUpload = upload.single('image');
 
-// router.post("/delete", itemController.deleteItem);
+router.delete("/delete/:id", itemController.deleteItem);
+
 router.post("/add", imageUpload, itemController.addItem);
 
 router.get("/", itemController.getAllItems);

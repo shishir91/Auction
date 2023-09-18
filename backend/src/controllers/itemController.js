@@ -2,6 +2,24 @@ import itemModel from "../models/itemModel.js";
 import { Op } from "sequelize";
 
 export default class ItemController {
+    async deleteItem(req, res) {
+        const { id } = req.params;
+        if (!id){
+            res.json({success: false, message: "ID is not provided"});
+        }
+        const data = await itemModel.destroy({
+            where:{
+                id,
+            }
+        });
+        if (data){
+            res.json({success: true, message: "Item Deleted Successfully"});
+        }else{
+            res.json({success: false, message: "Error while deleting item"});
+        }
+    }
+
+
     async addItem(req, res) {
         const { name, artist, description, category, productDetail, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
         let { uploadedBy } = req.body;
