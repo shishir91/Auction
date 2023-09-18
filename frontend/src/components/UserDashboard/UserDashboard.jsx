@@ -5,13 +5,13 @@ import "./UserDashboard.css"
 
 const UserProfile = () => {
     return (
-        <div className="d-flex justify-content-center align-item-center flex-wrap">
-            <div className="container text-center" style={{ marginTop: "4rem" }}>
+        <div className="Dashboard d-flex justify-content-center align-item-center flex-wrap">
+            <div className="container text-center" style={{ marginTop: "2rem" }}>
                 <img
                     src={Demo}
                     alt="User Profile"
                     className="img-fluid rounded-circle"
-                    style={{ height: "10rem" }}
+                    style={{ height: "6rem" }}
                 />
                 <h3 className="mt-3">User Name</h3>
             </div>

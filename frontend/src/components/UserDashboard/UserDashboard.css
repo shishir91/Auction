@@ -1,3 +1,7 @@
+.Dashboard{
+    overflow: hidden;
+}
+
 .Auction_Button {
     background-color: aqua;
     border: 3px solid rgb(235, 53, 37);
