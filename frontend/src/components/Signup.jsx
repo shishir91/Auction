@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Auction from "../images/auction.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useNavigationType } from "react-router-dom";
 
 // Add this custom CSS class to position the icon
 const inputGroupWithIcon = {
@@ -25,6 +26,96 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
+  let navigate = useNavigate();
+
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    cpassword: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Check if passwords match
+  //   if (formData.password !== formData.cpassword) {
+  //     alert("Passwords do not match.");
+  //     return;
+  //   }
+
+  //   // Send a POST request to the signup API
+  //   fetch("http://localhost:5000/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.success) {
+  //         // Redirect to a success page or handle successful signup
+  //         navigate("/login")
+  //         alert("Registration successful!");
+  //       } else {
+  //         alert(data.message);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error during signup:", error);
+  //     });
+  // };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.cpassword) {
+      alert("Password does not match");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/signup" , {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if(!response.ok) {
+        throw new Error(`Http Error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if(data.success) {
+        navigate("/login")
+        alert("Thank You Your Registration is Successful, Please Login to procced,")
+      }
+      else{
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.error("Error during signup:" , error)
+
+    }
+
+  }
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -44,23 +135,29 @@ const Signup = () => {
         {/* <!-- Login Form Section --> */}
         <div className="col-md-6 col-sm-12">
           <div className="m-3 p-3">
-            <form className="p-4" action="#" method="post">
+            <form className="p-4" onSubmit={handleSubmit}>
               <h1>
                 <b>Welcome to the Auction House</b>
               </h1>
               <h3>Bid on Your Favorite</h3>
               <br />
               <h6>Enter Your Details Below</h6>
+
+              {/* Full Name input */}
               <div className="form-group m-1">
                 <input
                   type="text"
                   className="form-control mt-2 p-3 h-4 border-dark text-success "
                   id="fullName"
-                  name="fullName"
+                  name="name"
                   required
                   placeholder="Full Name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                 />
               </div>
+
+              {/* Email input */}
               <div className="form-group m-1">
                 <input
                   type="email"
@@ -69,8 +166,12 @@ const Signup = () => {
                   name="email"
                   required
                   placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleInputChange}
                 />
               </div>
+
+              {/* Phone Number input */}
               <div className="form-group m-1" style={inputGroupWithIcon}>
                 <div className="input-group">
                   <div className="input-group-prepend">
@@ -78,20 +179,23 @@ const Signup = () => {
                       <option value="+1">+1 (USA)</option>
                       <option value="+44">+44 (UK)</option>
                       <option value="+44">+977 (Nepal)</option>
-                      {/* Add more country code options as needed */}
                     </select>
-                  </div>{" "}
+                  </div>
                   &nbsp;&nbsp;
                   <input
                     type="tel"
                     className="form-control mt-2 p-3 h-4 border-dark text-success "
                     id="phoneNumber"
-                    name="phoneNumber"
+                    name="phone"
                     required
                     placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
+
+              {/* Password input */}
               <div className="form-group m-1" style={inputGroupWithIcon}>
                 <div className="input-group">
                   <input
@@ -102,6 +206,8 @@ const Signup = () => {
                     required
                     placeholder="Password"
                     minLength={8}
+                    value={formData.password}
+                    onChange={handleInputChange}
                   />
                   <div className="input-group-append">
                     <span
@@ -114,16 +220,20 @@ const Signup = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Confirm Password input */}
               <div className="form-group m-1" style={inputGroupWithIcon}>
                 <div className="input-group">
                   <input
                     type={showPassword ? "text" : "password"}
                     className="form-control mt-2 p-3 h-4 border-dark text-success "
                     id="confirmPassword"
-                    name="confirmPassword"
+                    name="cpassword"
                     required
                     placeholder="Confirm Password"
                     minLength={8}
+                    value={formData.cpassword}
+                    onChange={handleInputChange}
                   />
                   <div className="input-group-append">
                     <span
@@ -136,6 +246,8 @@ const Signup = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Submit button */}
               <div className="mt-3">
                 <button
                   type="submit"
@@ -144,6 +256,8 @@ const Signup = () => {
                   Sign Up
                 </button>
               </div>
+
+              {/* Already have an account */}
               <div className="d-flex justify-content-center">
                 Already have an account? &nbsp;{" "}
                 <a href="#" className="text-decoration-none text-success">
