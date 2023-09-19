@@ -4,18 +4,18 @@ import { Op } from "sequelize";
 export default class ItemController {
     async deleteItem(req, res) {
         const { id } = req.params;
-        if (!id){
-            res.json({success: false, message: "ID is not provided"});
+        if (!id) {
+            res.json({ success: false, message: "ID is not provided" });
         }
         const data = await itemModel.destroy({
-            where:{
+            where: {
                 id,
             }
         });
-        if (data){
-            res.json({success: true, message: "Item Deleted Successfully"});
-        }else{
-            res.json({success: false, message: "Error while deleting item"});
+        if (data) {
+            res.json({ success: true, message: "Item Deleted Successfully" });
+        } else {
+            res.json({ success: false, message: "Error while deleting item" });
         }
     }
 
@@ -26,7 +26,7 @@ export default class ItemController {
 
         function generateRandomNumber() {
             const min = 10000000;
-            const max = 99999999; 
+            const max = 99999999;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
@@ -57,6 +57,7 @@ export default class ItemController {
             limit: parseInt(limit),
             raw: true
         });
+        console.log(data);
         for (let d of data) {
             d.image = "http://localhost:5000/uploads/" + d.image
             console.log(d.image);
@@ -67,7 +68,7 @@ export default class ItemController {
     async getItemsByCategory(req, res) {
         let { c } = req.query;
         const data = await itemModel.findAll({
-            where:{
+            where: {
                 category: c
             },
             raw: true
@@ -80,16 +81,24 @@ export default class ItemController {
     }
 
     async getItemByID(req, res) {
-        const { id } = req.params;
-        if (id) {
-            const data = await itemModel.findByPk({ id, raw: true });
-            for (let d of data) {
-                d.image = "http://localhost:5000/uploads/" + d.image
-                console.log(d.image);
+        try {
+            const { id } = req.params;
+            console.log(id);
+            if (id) {
+                const data = await itemModel.findByPk(id, { raw: true });
+                console.log(data);
+                data.image = "http://localhost:5000/uploads/" + data.image;
+                console.log(data.image);
+                // for (let d in data) {
+                //     d.image = "http://localhost:5000/uploads/" + d.image;
+                //     console.log(d.image);
+                // }
+                data ? res.json(data) : res.json({ message: "No data found" });
+            } else {
+                res.json({ success: false, message: "Item ID not provided" });
             }
-            data ? res.json(data) : res.json({ message: "No data found" });
-        } else {
-            res.json({ success: false, message: "Item ID not provided" });
+        } catch (err) {
+            console.log(err);
         }
     }
 
