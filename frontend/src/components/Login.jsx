@@ -19,7 +19,7 @@ const iconStyle = {
     zIndex: 2,
 };
 
-const Signup = () => {
+const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     let navigate = useNavigate();
 
@@ -59,7 +59,8 @@ const Signup = () => {
             const data = await response.json();
 
             if (data.success) {
-                navigate("/")
+                let isLoggedIn = true;
+                navigate("/", isLoggedIn)
                 alert("Thank You, Login Success: Please Procced")
             }
             else{
@@ -139,4 +140,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Login;
