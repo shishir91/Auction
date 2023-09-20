@@ -6,6 +6,7 @@ export default class UserController {
 
     async signup(req, res) {
         const { name, email, phone, password, cpassword } = req.body;
+        console.log(req.body)
         const existingEmail = await userModel.findOne({ where: { email } });
         const uppercaseRegex = /[A-Z]/;
         const lowercaseRegex = /[a-z]/;
@@ -54,9 +55,9 @@ export default class UserController {
                 });
                 if (data) {
                     req.session.user_email = data.email;
-                    return res.json({ success: true, message: "Registration successfully", email: data.email});
+                    return res.json({ success: true, message: "Registration successfully", email: data.email });
                 } else {
-                    return res.json({ success: false, message: "Error while adding user"});
+                    return res.json({ success: false, message: "Error while adding user" });
                 }
             } else {
                 return res.json({ success: false, message: "Password didn't match" });
@@ -68,11 +69,13 @@ export default class UserController {
     async login(req, res) {
 
         const { email, password } = req.body;
+        console.log(req.body)
         if (!email || !password) {
             return res.json({ success: false, message: "All fields are required" });
         }
 
         const user = await userModel.findOne({ where: { email } });
+        console.log(user)
 
         if (!user) {
             return res.json({ success: false, message: "Invalid Email Address" });
@@ -83,6 +86,7 @@ export default class UserController {
             req.session.user_email = user.email;
             req.session.user_type = user.type;
             req.session.user_status = user.status;
+            console.log(req.session)
             return res.json({ success: true, message: "Login successful", user_name: user.fullname, user_email: user.email, user_type: user.type, user_status: user.status });
             console.log('Login successful');
         } else {
@@ -92,6 +96,7 @@ export default class UserController {
     }
 
     async logout(req, res) {
+        console.log(req.session)
         req.session.destroy((err) => {
             if (err) {
                 console.log('Error destroying session:', err);
@@ -169,22 +174,22 @@ export default class UserController {
     };
 
     async uploadIdentity(req, res) {
-        if (!req.file){
+        if (!req.file) {
             console.log("File Empty");
-            res.json({success: false, message: "Upload your Identity"})
-        }else{
+            res.json({ success: false, message: "Upload your Identity" })
+        } else {
             console.log(req.file);
             const data = await userModel.update({
                 identity: req.file.filename
-            },{
-                where:{
+            }, {
+                where: {
                     id: req.session.user_id
                 }
             });
-            if (data){
-                res.json({success: true, message: "Identity Uploaded"})
-            }else{
-                res.json({success: false, message: "Cannot Upload Identity"})
+            if (data) {
+                res.json({ success: true, message: "Identity Uploaded" })
+            } else {
+                res.json({ success: false, message: "Cannot Upload Identity" })
             }
         }
     }

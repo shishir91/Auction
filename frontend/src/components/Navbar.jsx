@@ -6,99 +6,17 @@ import { BsSearch, BsPersonCircle, BsChevronDown } from "react-icons/bs";
 const Navbar = () => {
   let navigate = useNavigate();
   const [isDropDown, setDropDown] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const toggleDropDown = () => {
     setDropDown(!isDropDown);
   };
 
-  useEffect(() => {
-    fetch("http://localhost:5000/login", {
-      method: "POST",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
-      })
-      .catch((error) => {
-        console.error("Error checking login status:", error);
-      });
-  }, []);
-
-
   const handleLogout = () => {
-    fetch("http://localhost:5000/logout", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          setDropDown(false);
-          setLoggedIn(false);
-          navigate("/login");
-        }
-      })
-      .catch((error) => {
-        console.error("Error during logout:", error);
-      });
-  };
-
-
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, []);
-
-  // const checkLoginStatus = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5000/login", {
-  //       method: "POST",
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setLoggedIn(data.success);
-  //       console.log(data)
-  //       console.log("Login True")
-  //       console.log(data.success)
-  //       console.log(setLoggedIn)
-  //     } else {
-  //       setLoggedIn(false);
-  //       console.log("Login False")
-  //     }
-  //   } catch (error) {
-  //     console.error("Error checking login status:", error);
-  //   }
-  // };
-
-
-  // const handleLogout = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5000/logout", {
-  //       method: "GET",
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       if (data.success) {
-
-  //         console.log(data.success)
-
-  //         setDropDown(false);
-  //         setLoggedIn(false);
-  //         navigate("/login");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during logout:", error);
-  //   }
-  // };
-
+    localStorage.clear();
+    navigate("/login");
+    window.location.reload(false);
+  }
 
 
   return (
@@ -164,11 +82,30 @@ const Navbar = () => {
                   </li>
                 </ul>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/admin">
-                  Admin
-                </Link>
-              </li>
+              {localStorage.getItem('isAdmin')  === 'true' ?
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    Admin
+                  </Link>
+                </li>
+                :
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    About Us
+                  </Link>
+                </li>}
+              {/* {localStorage.getItem('Seller')  === 'true' ?
+                <li className="nav-item">
+                  <Link className="nav-link" to="/auctionpanel">
+                    Create Auction
+                  </Link>
+                </li>
+                :
+                <li className="nav-item">
+                  <Link className="nav-link" to="/register">
+                    Register
+                  </Link>
+                </li>} */}
             </ul>
 
             <form
@@ -195,48 +132,46 @@ const Navbar = () => {
               </div>
             </form>
 
-            {!loggedIn ? (
-              <div className="d-flex">
-                <Link className="btn btn-outline-success mx-1" to="/login">
-                  LogIn
-                </Link>
-                <Link className="btn btn-outline-success mx-1" to="/signup">
-                  SignUp
-                </Link>
-              </div>
-            ) : (
-              <div className="dropdown">
-                <button
-                  style={{ width: "8rem", marginRight: "3rem" }}
-                  onClick={toggleDropDown}
-                >
-                  <BsPersonCircle style={{ width: "rem" }} />
-                  <BsChevronDown />
-                </button>
-                <ul
-                  className={`dropdown-menu ${isDropDown ? "show" : ""
-                    }`}
-                >
-                  <li>
-                    <Link
-                      className="dropdown-item"
-                      to="/dashboard"
-                    >
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="dropdown-item"
-                      to="/"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
+
+            {!localStorage.getItem('login') ? <form className="d-flex" role="search">
+              <Link to="/login" className="btn btn-outline-success mx-3 mt-2" type="submit">LogIn</Link>
+              <Link to="/signup" className="btn btn-outline-success mt-2" type="submit">SignUp</Link>
+            </form> : <div className="dropdown">
+              <button
+                style={{ width: "8rem", marginRight: "3rem" }}
+                onClick={toggleDropDown}
+              >
+                <BsPersonCircle style={{ width: "rem" }} />
+                <BsChevronDown />
+              </button>
+              <ul
+                className={`dropdown-menu ${isDropDown ? "show" : ""
+                  }`}
+              >
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to="/"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>}
+
+
+
+
+
           </div>
         </div>
       </nav>

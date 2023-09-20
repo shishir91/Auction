@@ -21,8 +21,10 @@ export default class ItemController {
 
 
     async addItem(req, res) {
-        const { name, artist, description, category, productDetail, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
+        const { name, artist, description, category, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
         let { uploadedBy } = req.body;
+
+        console.log(req.body)
 
         function generateRandomNumber() {
             const min = 10000000;
@@ -36,12 +38,15 @@ export default class ItemController {
             uploadedBy = req.session.user_email;
         }
 
-        if (!name || !artist || !description || !category || !productDetail || !auctionDate || !auctionTime || !auctionDuration || !basePrice) {
+        if (!name || !artist || !description || !category || !auctionDate || !auctionTime || !auctionDuration || !basePrice) {
             return res.json({ success: "false", message: "All fields are required" })
         }
         else {
 
             const data = await itemModel.create({ ...req.body, lotNumber: generateRandomNumber(), image: req.file.filename, status: "listed", uploadedBy });
+            
+            console.log(data)
+
             if (data) {
                 return res.json({ success: true, message: "Item added successfully" });
             } else {

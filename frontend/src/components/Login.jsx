@@ -60,15 +60,22 @@ const Login = () => {
 
             if (data.success) {
                 let isLoggedIn = true;
-                navigate("/", isLoggedIn)
+                let Admin = data.user_type === "admin";
+                let Seller = data.user_type === "seller";
+
+                localStorage.setItem('login', isLoggedIn);
+                localStorage.setItem('isAdmin', Admin)
+                localStorage.setItem('Seller', Seller)
+
+                navigate("/")
                 alert("Thank You, Login Success: Please Procced")
             }
-            else{
+            else {
                 alert(data.message)
             }
 
         } catch (error) {
-            console.error("Error during signup:" , error)
+            console.error("Error during signup:", error)
         }
     }
 

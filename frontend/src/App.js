@@ -15,6 +15,7 @@ import UserDashboard from './components/UserDashboard/UserDashboard';
 import AuctionPanel from './components/UserDashboard/AuctionPanel';
 import ItemList from './components/Admin/ItemList';
 import UserList from './components/Admin/UserList';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Navbar />
         
         <Routes>
-          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/login' element={<Login/>} />
           <Route exact path='/signup' element={<Signup/>} />
           <Route exact path='/home' element={<Home/>} />
           <Route exact path='/' element={<Home/>} />
@@ -38,6 +39,7 @@ function App() {
           <Route exact path='/auctionpanel' element={<AuctionPanel/>} />
           <Route exact path='/itemlist' element={<ItemList/>} />
           <Route exact path='/userlist' element={<UserList/>} />
+          <Route exact path='/register' element={<Register/>} />
         </Routes>
       </Router>
     </>

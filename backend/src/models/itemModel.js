@@ -42,10 +42,6 @@ const userModel = connection.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        productDetail:{
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
         mediumUsed:{
             type: DataTypes.STRING,
             allowNull: true,

@@ -22,7 +22,8 @@ const UserProfile = () => {
                         <p>user@example.com</p>
                     </div>
                     <div className="col-md-4">
-                        <Link to="/auctionpanel"> <button className="btn Auction_Button">Create Auction</button></Link>
+                        { localStorage.getItem("Seller") === "true" ?
+                            <Link to="/auctionpanel"> <button className="btn Auction_Button">Create Auction</button></Link> :  <Link to="/register"><button className="btn Auction_Button">Register</button> </Link> }
                     </div>
                     <div className="col-md-4 text-left">
                         <h6>Address:</h6>
@@ -55,7 +56,7 @@ const UserProfile = () => {
 
 
             </div>
-        </div>
+        </div >
 
 
     );

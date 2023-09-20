@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors"; 
 import connection from "./models/index.js"
 import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
@@ -8,6 +9,13 @@ import mailRoute from "./routes/mailRoute.js"
 import session from "express-session";
 
 const app = express();
+app.use(cors());
+app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true, // Allow cookies and headers with credentials
+    })
+  );
 app.use(express.json());
 app.use(express.static('public'));
 // app.use('/css', express.static('./public/css'));

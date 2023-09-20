@@ -4,7 +4,7 @@ export default class AdminController {
     async userList(req, res) {
         const users = await userModel.findAll({
             where: {
-                type: ["user", "seller"]
+                type: ["user", "seller" , "admin"]
             }
         });
         if (users) {
