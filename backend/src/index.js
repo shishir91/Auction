@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors"; 
 import connection from "./models/index.js"
 import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
@@ -10,13 +9,12 @@ import { Server } from "socket.io";
 import session from "express-session";
 
 const app = express();
-app.use(cors());
 app.use(
     cors({
-      origin: "http://localhost:3000",
-      credentials: true, // Allow cookies and headers with credentials
+        origin: "http://localhost:3000",
+        credentials: true, // Allow cookies and headers with credentials
     })
-  );
+);
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/uploads', express.static('./public/uploads'));
@@ -31,17 +29,17 @@ app.use(
 
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors:{
+    cors: {
         origin: "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 })
 
-io.on("connection", (socket)=>{
-    console.log("User Connected: "+ socket.id);
+io.on("connection", (socket) => {
+    console.log("User Connected: " + socket.id);
 
-    socket.on("disconnect", ()=>{
-        console.log("User Disconneted: "+ socket.id);
+    socket.on("disconnect", () => {
+        console.log("User Disconneted: " + socket.id);
     })
 })
 
