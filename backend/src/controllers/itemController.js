@@ -21,7 +21,7 @@ export default class ItemController {
 
 
     async addItem(req, res) {
-        const { name, artist, description, category, productDetail, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
+        const { name, artist, description, category, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
         let { uploadedBy } = req.body;
 
         function generateRandomNumber() {
@@ -36,7 +36,7 @@ export default class ItemController {
             uploadedBy = req.session.user_email;
         }
 
-        if (!name || !artist || !description || !category || !productDetail || !auctionDate || !auctionTime || !auctionDuration || !basePrice) {
+        if (!name || !artist || !description || !category || !auctionDate || !auctionTime || !auctionDuration || !basePrice) {
             return res.json({ success: "false", message: "All fields are required" })
         }
         else {

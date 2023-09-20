@@ -4,15 +4,15 @@ import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import mailRoute from "./routes/mailRoute.js"
-
+import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
 import session from "express-session";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(express.static('public'));
-// app.use('/css', express.static('./public/css'));
-// app.use('/img', express.static('./public/img'));
-// app.use('/js', express.static('./public/js'));
 app.use('/uploads', express.static('./public/uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -23,6 +23,22 @@ app.use(
     })
 );
 
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors:{
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+})
+
+io.on("connection", (socket)=>{
+    console.log("User Connected: "+ socket.id);
+
+    socket.on("disconnect", ()=>{
+        console.log("User Disconneted: "+ socket.id);
+    })
+})
+
 app.get("/", async (req, res) => {
     res.send("Server has started!!");
 });
@@ -32,7 +48,7 @@ app.use("/item/", itemRoute);
 app.use("/admin/", adminRoute);
 app.use("/mail/", mailRoute);
 
-app.listen(5000, async () => {
+server.listen(5000, async () => {
     console.log("Server has started!!!  http://localhost:5000");
 
     try {
