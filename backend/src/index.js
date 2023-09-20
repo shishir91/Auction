@@ -4,6 +4,7 @@ import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import mailRoute from "./routes/mailRoute.js"
+import cors from "cors"
 import http from "http";
 import { Server } from "socket.io";
 import session from "express-session";

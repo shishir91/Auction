@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from "../api/config.js"; 
 
-const Photographic = () => {
+const Sculpture = () => {
     const navigate = useNavigate();
-    const [photographicList, setPhotographicList] = useState([]);
+    const [sculptureList, setSculptureList] = useState([]);
     useEffect(() => {
         async function fetchItem() {
-            const response = await api.get("/item/category?c=photographic");
-            setPhotographicList(response.data);
+            const response = await api.get("/item/category?c=sculpture");
+            setSculptureList(response.data);
         }
         fetchItem();
     }, []);
@@ -16,10 +16,10 @@ const Photographic = () => {
 
     return (
         <div>
-            {photographicList.map((item, index) => {
+            {sculptureList.map((item, index) => {
                 return (
                     <div key={index} onClick={() => navigate("/bidding", { state: { item } })} style={{ cursor: "pointer" }}>
-                        <h4 className='mx-4 px-3'>Photographics Images</h4>
+                        <h4 className='mx-4 px-3'>Sculptures</h4>
                         <div className='container m-3 p-3 d-flex'>
                             <div class="card m-3" style={{ "width": "18rem" }} >
                                 <img src={item.image} class="card-img-top" alt="..." />
@@ -39,4 +39,4 @@ const Photographic = () => {
     )
 }
 
-export default Photographic
+export default Sculpture

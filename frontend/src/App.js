@@ -5,9 +5,9 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Drawing from './pages/Drawing';
-import Carvings from './pages/Carvings';
+import Carving from './pages/Carving';
 import Painting from './pages/Painting';
-import Sculptures from './pages/Sculptures';
+import Sculpture from './pages/Sculpture';
 import Photographic from './pages/Photographic';
 import Bidding from './components/Bidding';
 import Admin from './components/Admin/Admin';
@@ -29,9 +29,9 @@ function App() {
           <Route exact path='/home' element={<Home/>} />
           <Route exact path='/' element={<Home/>} />
           <Route exact path='/drawing' element={<Drawing/>} />
-          <Route exact path='/carvings' element={<Carvings/>} />
+          <Route exact path='/carving' element={<Carving/>} />
           <Route exact path='/painting' element={<Painting/>} />
-          <Route exact path='/sculptures' element={<Sculptures/>} />
+          <Route exact path='/sculpture' element={<Sculpture/>} />
           <Route exact path='/photographic' element={<Photographic/>}/>
           <Route exact path='/bidding' element={<Bidding/>} />
           <Route exact path='/admin' element={<Admin/>} />

@@ -57,12 +57,12 @@ const Navbar = () => {
                 <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" to="/drawing">
-                      Drawing
+                      Drawings
                     </Link>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/painting">
-                      Painting
+                      Paintings
                     </Link>
                   </li>
                   <li>
@@ -71,12 +71,12 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/sculptures">
+                    <Link className="dropdown-item" to="/sculpture">
                       Sculptures
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/carvings">
+                    <Link className="dropdown-item" to="/carving">
                       Carvings
                     </Link>
                   </li>
