@@ -5,7 +5,6 @@ import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import mailRoute from "./routes/mailRoute.js"
-import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import session from "express-session";
@@ -19,7 +18,6 @@ app.use(
     })
   );
 app.use(express.json());
-app.use(cors());
 app.use(express.static('public'));
 app.use('/uploads', express.static('./public/uploads'));
 app.use(express.urlencoded({ extended: false }));

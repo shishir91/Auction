@@ -86,7 +86,7 @@ const AuctionPanel = () => {
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="productionYear" className="form-label">Production Year</label>
-                  <input type="number" className="form-control" name="productionYear" min="1000" max="2099" id="productionYear" value={formData.productionYear} onChange={handleChange} required />
+                  <input type="number" className="form-control" name="productionYear" min="1900" max="2099" id="productionYear" value={formData.productionYear} onChange={handleChange} required />
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="category" className="form-label">Category</label>
