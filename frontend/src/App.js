@@ -16,6 +16,9 @@ import AuctionPanel from './components/UserDashboard/AuctionPanel';
 import ItemList from './components/Admin/ItemList';
 import UserList from './components/Admin/UserList';
 import Register from './components/Register';
+import EmailVerify from './components/EmailVerificatoin/Emailverify';
+import PasswordChange from './components/EmailVerificatoin/PasswordChange';
+import VerifyCode from './components/EmailVerificatoin/VerifyCode';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
           <Route exact path='/itemlist' element={<ItemList/>} />
           <Route exact path='/userlist' element={<UserList/>} />
           <Route exact path='/register' element={<Register/>} />
+          <Route exact path='/verifyemail' element={<EmailVerify/>} />
+          <Route exact path='/newpassword' element={<PasswordChange/>} />
+          <Route exact path='/verifycode' element={<VerifyCode/>} />
         </Routes>
       </Router>
     </>

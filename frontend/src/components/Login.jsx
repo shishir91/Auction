@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Auction from '../images/auction.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Add this custom CSS class to position the icon
 const inputGroupWithIcon = {
@@ -130,7 +130,7 @@ const Login = () => {
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" className="text-decoration-none text-success"><b>Forget Your Password</b>?</a>
+                            <Link to="/verifyemail" className="text-decoration-none text-success"><b>Forget Your Password</b>?</Link>
                             <div className="mt-3">
                                 <button type="submit" className="btn btn-success fw-bold btn-block">
                                     Login

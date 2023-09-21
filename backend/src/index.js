@@ -7,12 +7,13 @@ import mailRoute from "./routes/mailRoute.js"
 import http from "http";
 import { Server } from "socket.io";
 import session from "express-session";
+import cors from "cors"
 
 const app = express();
 app.use(
     cors({
         origin: "http://localhost:3000",
-        credentials: true, // Allow cookies and headers with credentials
+        credentials: true, 
     })
 );
 app.use(express.json());

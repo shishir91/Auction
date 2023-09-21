@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from "../../api/config.js"
 
 const AuctionPanel = () => {
   const [formData, setFormData] = useState({
@@ -6,10 +7,11 @@ const AuctionPanel = () => {
     artist: '',
     description: '',
     category: '',
-    productDetail: '',
     mediumUsed: '',
+    subjectClassification: "",
+    producedYear: '',
     materialUsed: '',
-    dimension: '', // Changed from 'dimension' to 'dimensions'
+    dimension: '',
     auctionDate: '',
     auctionTime: '',
     auctionDuration: '',
@@ -17,41 +19,65 @@ const AuctionPanel = () => {
     image: '',
   });
 
+
+  const [image, setImage] = useState()
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/item/add", {
-        method: "POST",
-        headers: {
-          'auth-token': localStorage.getItem('login'),
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      const data = await response.json();
-      console.log(data)
-      console.log("Data Added:", data.message);
+      // const response = await fetch("http://localhost:5000/item/add", {
+      //   method: "POST",
+      //   body: JSON.stringify(formData),
+      // });
 
-      if (data.success) {
-        setFormData({
-          name: '',
-          artist: '',
-          description: '',
-          category: '',
-          productDetail: '',
-          mediumUsed: '',
-          materialUsed: '',
-          dimension: '',
-          auctionDate: '',
-          auctionTime: '',
-          auctionDuration: '',
-          basePrice: '',
-          image: '',
-        });
+      const formDataObj = new FormData();
+      formDataObj.append('name', formData.name);
+      formDataObj.append('artist', formData.artist);
+      formDataObj.append('description', formData.description);
+      formDataObj.append('category', formData.category);
+      formDataObj.append('mediumUsed', formData.mediumUsed);
+      formDataObj.append('subjectClassification', formData.subjectClassification);
+      formDataObj.append('producedYear', formData.producedYear);
+      formDataObj.append('materialUsed', formData.materialUsed);
+      formDataObj.append('dimension', formData.dimension);
+      formDataObj.append('auctionDate', formData.auctionDate);
+      formDataObj.append('auctionTime', formData.auctionTime);
+      formDataObj.append('auctionDuration', formData.auctionDuration);
+      formDataObj.append('basePrice', formData.basePrice);
+      formDataObj.append('image', image);
+
+      const response = await api.post("/item/add", formDataObj);
+
+
+      console.log(formData)
+
+      // const data = response.json();
+
+      console.log(response.data)
+
+      // console.log("Data Added:", data.message);
+
+      if (response.data.success === true) {
+        // setFormData({
+        //   name: '',
+        //   artist: '',
+        //   description: '',
+        //   category: '',
+        //   mediumUsed: '',
+        //   materialUsed: '',
+        //   dimension: '',
+        //   auctionDate: '',
+        //   auctionTime: '',
+        //   auctionDuration: '',
+        //   basePrice: '',
+        //   image: '',
+        // });
 
         alert("Item is Added");
       } else {
+        alert("Error adding item")
         throw new Error("Error adding item");
       }
     } catch (error) {
@@ -85,8 +111,8 @@ const AuctionPanel = () => {
                   <input type="text" className="form-control" name="artist" id="artist" value={formData.artist} onChange={handleChange} required />
                 </div>
                 <div className="col-md-3">
-                  <label htmlFor="productionYear" className="form-label">Production Year</label>
-                  <input type="number" className="form-control" name="productionYear" min="1900" max="2099" id="productionYear" value={formData.productionYear} onChange={handleChange} required />
+                  <label htmlFor="producedYear" className="form-label">Production Year</label>
+                  <input type="number" className="form-control" name="producedYear" min="1900" max="2099" id="producedYear" value={formData.productionYear} onChange={handleChange} required />
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="category" className="form-label">Category</label>
@@ -101,7 +127,7 @@ const AuctionPanel = () => {
                     <option value="">Select</option>
                     <option value="Drawing">Drawing</option>
                     <option value="Painting">Painting</option>
-                    <option value="Photographic Images">Photographic Images</option>
+                    <option value="Photographic">Photographic</option>
                     <option value="Sculptures">Sculptures</option>
                     <option value="Carvings">Carvings</option>
                   </select>
@@ -111,12 +137,12 @@ const AuctionPanel = () => {
             <div className="mb-3">
               <div className="row">
                 <div className="col-md-3">
-                  <label htmlFor="classification" className="form-label">Classification</label>
+                  <label htmlFor="subjectClassification" className="form-label">Classification</label>
                   <select
                     className="form-control"
-                    name="classification"
-                    id="classification"
-                    value={formData.classification}
+                    name="subjectClassification"
+                    id="subjectClassification"
+                    value={formData.subjectClassification}
                     onChange={handleChange}
                     required
                   >
@@ -134,7 +160,7 @@ const AuctionPanel = () => {
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="image" className="form-label">Image</label>
-                  <input type="file" className="form-control" name="image" id="image" value={formData.image} onChange={handleChange} required />
+                  <input type="file" className="form-control" name="image" id="image" accept="image/*" onChange={(e) => setImage(e.target.files[0])} required />
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="materialUsed" className="form-label">Material Used</label>

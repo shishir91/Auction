@@ -3,7 +3,8 @@ import nodemailer from "nodemailer";
 
 export default class MailController{
     async sendVerificationCode(req, res) {
-        function generateVerificationCode() {
+        const {email} = req.body
+        function generateVerificationCode() { 
             const length = 6;
             const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let verificationCode = "";
@@ -16,15 +17,17 @@ export default class MailController{
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
             auth: {
-                user: "c27d6d725dc5a4",
-                pass: "4f1e43dce59a27"
+                user: "22e86f837e6066",
+                pass: "0d808d78a12a26"
             }
         });
         const code = generateVerificationCode();
+
+        console.log("This code is generated: " + code)
     
         const mailOptions = {
             from: 'nodeapp@nodejs',
-            to: req.session.user_email,
+            to: email,
             subject: 'Email Verification',
             html: `<p>Dear user,</p><p>Your Verification Code is:   ${code} </p>`
         };

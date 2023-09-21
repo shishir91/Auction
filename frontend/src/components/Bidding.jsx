@@ -21,7 +21,7 @@ const Bidding = () => {
                 >
                     <div>
                         <img
-                            src={Demo}
+                            src={item.image}
                             alt=""
                             style={{
                                 width: "25rem",
@@ -54,26 +54,24 @@ const Bidding = () => {
                     <h6>By The Name of the Artist or Whatever</h6> <br />
                     <h5>Description</h5>
                     <p>
-                        Comedian: "So I was trying to use this new AI chatbot website called
-                        ChatGPT and I got an error message that said 'A lot of people are
-                        checking out ChatGPT right now. Please check back soon!'"
+                        {item.description}
                     </p>
                     <h5>Product Details</h5>
                     <ul>
                         <li className="d-flex">
-                            <b>Dimension: &nbsp; </b> <p>5cm</p>
+                            <b>Dimension: &nbsp; </b> <p>{item.description}</p>
                         </li>
                         <li className="d-flex">
-                            <b>Frame: &nbsp;</b> <p>Minimalist Black Metallic Frame</p>
+                            <b>Frame: &nbsp;</b> <p>{item.frame}</p>
                         </li>
                         <li className="d-flex">
-                            <b>Artist: &nbsp;</b> <p>Charles Bellender</p>
+                            <b>Artist: &nbsp;</b> <p>{item.artist}</p>
                         </li>
                         <li className="d-flex">
-                            <b>Piece Title: &nbsp;</b> <p>Emergent Wealth</p>
+                            <b>Piece Title: &nbsp;</b> <p>{item.pieceTitle}</p>
                         </li>
                         <li className="d-flex">
-                            <b>Period/Date of Production: &nbsp;</b> <p>2006</p>
+                            <b>Period/Date of Production: &nbsp;</b> <p>{item.producedYear}</p>
                         </li>
                     </ul>
                     <h5>Auctions Details</h5>

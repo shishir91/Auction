@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from "../../api/config.js";
 
 const ItemList = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      name: 'Artwork 1',
-      artistName: 'Artist A',
-      initialBidPrice: '$100',
-      addedDate: '2023-09-20',
-    },
-    {
-      id: 2,
-      name: 'Artwork 2',
-      artistName: 'Artist B',
-      initialBidPrice: '$150',
-      addedDate: '2023-09-21',
-    },
-    {
-      id: 3,
-      name: 'Artwork 3',
-      artistName: 'Artist C',
-      initialBidPrice: '$80',
-      addedDate: '2023-09-22',
-    },
-  ]);
+  const [itemList, setItemList] = useState([]);
+
+  useEffect(() => {
+      async function fetchItems() {
+          try {
+              const response = await api.get("/item");
+              setItemList(response.data);
+          } catch (error) {
+              console.error("Error fetching items:", error);
+          }
+      }
+      fetchItems();
+  }, []);
 
   return (
-    <div className="container" >
+    <div className="container " >
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -38,12 +29,12 @@ const ItemList = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {itemList.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
-                <td>{item.artistName}</td>
-                <td>{item.initialBidPrice}</td>
-                <td>{item.addedDate}</td>
+                <td>{item.artist}</td>
+                <td>{item.basePrice}</td>
+                <td>{item.createdAt}</td>
               </tr>
             ))}
           </tbody>

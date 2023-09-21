@@ -14,7 +14,7 @@ const Admin = () => {
   };
 
   return (
-    <div className="container " style={{ backgroundColor: "#00ADB5", color: "#222831", height: "50vh"}} >
+    <div className="container " style={{ backgroundColor: "#00ADB5", color: "#222831", height: "100vh"}} >
       <h4 style={{borderBottom: "2px solid black"}} className='item-center'>Admin Panel</h4>
       <div className="row">
         <div className="col-md-3 " style={{borderRight: "2px solid black", backgroundColor: "#393E46", color: "#EEEEEE", height: "44.9vh"}}>
