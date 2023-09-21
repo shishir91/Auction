@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from "../api/config.js";
+import { socket } from "../App.js"
 
 const Drawing = () => {
   const navigate = useNavigate();
@@ -14,6 +15,18 @@ const Drawing = () => {
     fetchItem();
   }, []);
 
+  const join_room = (item) => {
+    const userEmail = localStorage.getItem("userEmail")
+    const room = item.lotNumber
+    if (userEmail !== "" && room !== "") {
+      socket.emit("join_room", { userEmail, room })
+    }
+  }
+  const handleDivClick = (item) => {
+    join_room(item);
+    navigate("/bidding", { state: { item } });
+  };
+
   return (
     <div>
       <h4 className='mx-4 px-3'>Drawings</h4>
@@ -22,7 +35,7 @@ const Drawing = () => {
           {drawingList.map((item, index) => (
             <div key={index} className="col-md-3 mb-3">
               <div
-                onClick={() => navigate("/bidding", { state: { item } })}
+                onClick={() => handleDivClick(item)}
                 style={{ cursor: "pointer" }}
               >
                 <div className="card">

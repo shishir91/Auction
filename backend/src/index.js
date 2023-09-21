@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 
     socket.on("join_room", (data)=>{
         socket.join(data);
-        console.log(`User with ID ${socket.id} joined Room ${data}`);
+        console.log(`User with ID ${data.userEmail} joined Room ${data}`);
     });
 
     socket.on("place_bid", (data)=>{

@@ -35,6 +35,6 @@
     "@types/nodemailer": "^6.4.8",
     "@types/nodemon": "^1.19.2",
     "@types/sequelize": "^4.28.15",
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.1"
   }
 }

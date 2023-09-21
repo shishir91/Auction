@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Demo from "../images/auction.png";
 import api from "../api/config.js";
-import { io } from "socket.io-client";
+const socket = io.connect("http://localhost:5000")
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
-const socket = io.connect("http://localhost:5000")
 
 var previousBid = 0;
 var bidCount = 0;
@@ -15,12 +14,12 @@ const Bidding = () => {
     const userEmail = localStorage.getItem("userEmail")
     const username = localStorage.getItem("username")
     const room = item.lotNumber
-    const joinRoom = () => {
-        if (userEmail !== "" && room !== "") {
-            socket.emit("join_room", room)
-        }
-    }
-    joinRoom();
+    // const joinRoom = () => {
+    //     if (userEmail !== "" && room !== "") {
+    //         socket.emit("join_room", room)
+    //     }
+    // }
+    // joinRoom();
 
     const [bid, setbid] = useState("");
     const [bidList, setBidList] = useState([]);
@@ -38,7 +37,7 @@ const Bidding = () => {
                     previousBid
                 }
                 await socket.emit("place_bid", bidData);
-                setBidList((list) => [...list, bidData]);
+                // setBidList((list) => [...list, bidData]);
             }
         }
     };
@@ -46,7 +45,7 @@ const Bidding = () => {
     useEffect(() => {
         socket.on("receive_bidData", (data) => {
             console.log(data);
-            setBidList((list) => [...list, data]);
+            // setBidList((list) => [...list, data]);
         })
     }, [socket])
 
