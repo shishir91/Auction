@@ -4,6 +4,7 @@ import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import mailRoute from "./routes/mailRoute.js"
+import cors from "cors"
 import http from "http";
 import { Server } from "socket.io";
 import session from "express-session";
@@ -39,9 +40,19 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log("User Connected: " + socket.id);
 
+    socket.on("join_room", (data)=>{
+        socket.join(data);
+        console.log(`User with ID ${socket.id} joined Room ${data}`);
+    });
+
+    socket.on("place_bid", (data)=>{
+        socket.to(data.room).emit("receive_bidData", data);
+        console.log(data);
+    })
+
     socket.on("disconnect", () => {
         console.log("User Disconneted: " + socket.id);
-    })
+    });
 })
 
 app.get("/", async (req, res) => {

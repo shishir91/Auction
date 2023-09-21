@@ -66,6 +66,8 @@ const Login = () => {
                 localStorage.setItem('login', isLoggedIn);
                 localStorage.setItem('isAdmin', Admin)
                 localStorage.setItem('Seller', Seller)
+                localStorage.setItem('userEmail', data.user_email)
+                localStorage.setItem('username', data.user_name)
 
                 navigate("/")
                 alert("Thank You, Login Success: Please Procced")
