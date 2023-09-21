@@ -63,7 +63,7 @@ const Bidding = () => {
                 >
                     <div>
                         <img
-                            src={Demo}
+                            src={item.image}
                             alt=""
                             style={{
                                 width: "25rem",
@@ -72,24 +72,25 @@ const Bidding = () => {
                         />
                     </div>
 
-                    {bidList.map((bidContent) => {
+                    {/* {bidList.map((bidContent) => {
                         return (
                             <div>
-                                <h4 className="mt-3">Current Bid</h4>
                                 {(bidContent.currentBid) ?
                                     <h5>$
                                         {bidContent.currentBid}
                                     </h5>
                                     :
-                                    <h5>$
-                                        {item.basePrice}
-                                    </h5>
-                                        
                                 }
-                                <h6>Current Bidder: </h6>
                             </div>
                         );
-                    })}
+                    })} */}
+                    <h4 className="mt-3">Current Bid</h4>
+                        <h5>$
+                            {item.basePrice}
+                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
+                        </h5>
+                    <h6>Current Bidder: </h6>
 
                     <div style={{ marginTop: "3rem" }}>
                         <h6>Submit Your Bid</h6>

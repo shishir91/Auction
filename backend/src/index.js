@@ -45,7 +45,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("place_bid", (data)=>{
-        data.bidCount = data.bidCount + 1
         socket.to(data.room).emit("receive_bidData", data);
         console.log(data);
     })
