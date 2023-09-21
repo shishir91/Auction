@@ -39,9 +39,20 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log("User Connected: " + socket.id);
 
+    socket.on("join_room", (data)=>{
+        socket.join(data);
+        console.log(`User with ID ${socket.id} joined Room ${data}`);
+    });
+
+    socket.on("place_bid", (data)=>{
+        data.bidCount = data.bidCount + 1
+        socket.to(data.room).emit("receive_bidData", data);
+        console.log(data);
+    })
+
     socket.on("disconnect", () => {
         console.log("User Disconneted: " + socket.id);
-    })
+    });
 })
 
 app.get("/", async (req, res) => {

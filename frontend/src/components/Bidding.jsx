@@ -3,12 +3,54 @@ import { useLocation } from "react-router-dom";
 import Demo from "../images/auction.png";
 import api from "../api/config.js";
 import { io } from "socket.io-client";
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const socket = io.connect("http://localhost:5000")
 
+var previousBid = 0;
+var bidCount = 0;
 const Bidding = () => {
     const item = useLocation().state.item;
-    console.log(item);
+    const userEmail = localStorage.getItem("userEmail")
+    const username = localStorage.getItem("username")
+    const room = item.lotNumber
+    const joinRoom = () => {
+        if (userEmail !== "" && room !== "") {
+            socket.emit("join_room", room)
+        }
+    }
+    joinRoom();
+
+    const [bid, setbid] = useState("");
+    const [bidList, setBidList] = useState([]);
+
+    const placeBid = async () => {
+        if (bid !== "") {
+            if (parseInt(bid) > parseInt(previousBid)) {
+                console.log(bid);
+                console.log(previousBid);
+                const bidData = {
+                    room,
+                    currentBid: bid,
+                    currentBidder: username,
+                    bidCount,
+                    previousBid
+                }
+                await socket.emit("place_bid", bidData);
+                setBidList((list) => [...list, bidData]);
+            }
+        }
+    };
+
+    useEffect(() => {
+        socket.on("receive_bidData", (data) => {
+            console.log(data);
+            setBidList((list) => [...list, data]);
+        })
+    }, [socket])
+
+
     return (
         <div>
             <div className="row">
@@ -30,16 +72,29 @@ const Bidding = () => {
                         />
                     </div>
 
-                    <h4 className="mt-3">Current Bid</h4>
-                    <h5>
-                        $ {item.basePrice} &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
-                    </h5>
+                    {bidList.map((bidContent) => {
+                        return (
+                            <div>
+                                <h4 className="mt-3">Current Bid</h4>
+                                {(bidContent.currentBid) ?
+                                    <h5>$
+                                        {bidContent.currentBid}
+                                    </h5>
+                                    :
+                                    <h5>$
+                                        {item.basePrice}
+                                    </h5>
+                                        
+                                }
+                                <h6>Current Bidder: </h6>
+                            </div>
+                        );
+                    })}
 
                     <div style={{ marginTop: "3rem" }}>
                         <h6>Submit Your Bid</h6>
-                        <input type="number" className="p-2" />{" "}
-                        <button className="p-2 btn btn-success ">Submit</button>
+                        <input type="number" className="p-2" onChange={(event) => { setbid(event.target.value) }} />{" "}
+                        <button className="p-2 btn btn-success" onClick={placeBid}>Submit</button>
                     </div>
                 </div>
 
@@ -50,7 +105,7 @@ const Bidding = () => {
                         margin: "1rem",
                     }}
                 >
-                    <h4>Heading Goes Here</h4>
+                    <h4>{item.name}</h4>
                     <h6>By The Name of the Artist or Whatever</h6> <br />
                     <h5>Description</h5>
                     <p>
