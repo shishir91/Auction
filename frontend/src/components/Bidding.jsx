@@ -11,8 +11,8 @@ var previousBid = 0;
 var bidCount = 0;
 const Bidding = () => {
     const item = useLocation().state.item;
-    const userEmail = localStorage.getItem("userEmail")
     const username = localStorage.getItem("username")
+    const userEmail = localStorage.getItem("userEmail")
     const room = item.lotNumber
     // const joinRoom = () => {
     //     if (userEmail !== "" && room !== "") {
@@ -37,6 +37,7 @@ const Bidding = () => {
                     previousBid
                 }
                 await socket.emit("place_bid", bidData);
+                // console.log(bidData);
                 // setBidList((list) => [...list, bidData]);
             }
         }
@@ -84,11 +85,11 @@ const Bidding = () => {
                         );
                     })} */}
                     <h4 className="mt-3">Current Bid</h4>
-                        <h5>$
-                            {item.basePrice}
-                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
-                        </h5>
+                    <h5>$
+                        {item.basePrice}
+                        &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
+                    </h5>
                     <h6>Current Bidder: </h6>
 
                     <div style={{ marginTop: "3rem" }}>

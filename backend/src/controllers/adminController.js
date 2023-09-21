@@ -2,13 +2,13 @@ import userModel from "../models/userModel.js";
 
 export default class AdminController {
     async userList(req, res) {
-        const users = await userModel.findAll({
-            where: {
-                type: ["user", "seller" , "admin"]
+        const data = await userModel.findAll({raw: true});
+        if (data) {
+            for (let d of data) {
+                d.identity = "http://localhost:5000/uploads/" + d.identity
+                console.log(d.identity);
             }
-        });
-        if (users) {
-            res.json(users)
+            res.json(data);
         } else {
             res.json({ success: false, message: "There are no users" })
         }
