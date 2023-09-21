@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Demo from "../images/auction.png";
 import api from "../api/config.js";
-const socket = io.connect("http://localhost:5000")
+import { io } from "socket.io-client";
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-
 
 var previousBid = 0;
 var bidCount = 0;
@@ -14,40 +13,39 @@ const Bidding = () => {
     const username = localStorage.getItem("username")
     const userEmail = localStorage.getItem("userEmail")
     const room = item.lotNumber
-    // const joinRoom = () => {
+    const socket = io.connect("http://localhost:5000/")
+    // const join_room = async () => {
+    //     const userEmail = localStorage.getItem("userEmail")
+    //     const room = item.lotNumber
     //     if (userEmail !== "" && room !== "") {
-    //         socket.emit("join_room", room)
+    //         await socket.emit("join_room", { userEmail, room })
     //     }
     // }
-    // joinRoom();
+    // join_room();
 
     const [bid, setbid] = useState("");
-    const [bidList, setBidList] = useState([]);
 
     const placeBid = async () => {
         if (bid !== "") {
-            if (parseInt(bid) > parseInt(previousBid)) {
-                console.log(bid);
-                console.log(previousBid);
-                const bidData = {
-                    room,
-                    currentBid: bid,
-                    currentBidder: username,
-                    bidCount,
-                    previousBid
-                }
-                await socket.emit("place_bid", bidData);
-                // console.log(bidData);
-                // setBidList((list) => [...list, bidData]);
+            const bidData = {
+                room,
+                bid,
+                bidder: username,
+                bidCount,
+                previousBid
             }
+            await socket.emit("place_bid", bidData);
+            // console.log(bidData);
         }
     };
 
     useEffect(() => {
         socket.on("receive_bidData", (data) => {
             console.log(data);
-            // setBidList((list) => [...list, data]);
-        })
+            bidCount++
+            previousBid = data.bid;
+            console.log(previousBid, bidCount);
+        });
     }, [socket])
 
 

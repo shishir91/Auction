@@ -4,6 +4,7 @@ import userRoute from "./routes/userRoute.js"
 import itemRoute from "./routes/itemRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import mailRoute from "./routes/mailRoute.js"
+import biddingRoute from "./routes/biddingRoute.js"
 import cors from "cors"
 import http from "http";
 import { Server } from "socket.io";
@@ -36,23 +37,24 @@ const io = new Server(server, {
     }
 })
 
-io.on("connection", (socket) => {
-    console.log("User Connected: " + socket.id);
+// io.on("connection", (socket) => {
+//     console.log("User Connected: " + socket.id);
 
-    socket.on("join_room", (data)=>{
-        socket.join(data);
-        console.log(`User with ID ${data.userEmail} joined Room ${data}`);
-    });
+//     socket.on("join_room", (data)=>{
+//         socket.join(data);
+//         console.log(`${data.userEmail}User with ID ${socket.id} joined Room ${data.room}`);
+//     });
 
-    socket.on("place_bid", (data)=>{
-        socket.to(data.room).emit("receive_bidData", data);
-        console.log(data);
-    })
+//     socket.on("place_bid", (data)=>{
+//         // console.log(data);
+//         socket.to(data.room).emit("receive_bidData", {data});
+//         // socket.emit("receive", data);
+//     });
 
-    socket.on("disconnect", () => {
-        console.log("User Disconneted: " + socket.id);
-    });
-})
+//     socket.on("disconnect", () => {
+//         console.log("User Disconneted: " + socket.id);
+//     });
+// });
 
 app.get("/", async (req, res) => {
     res.send("Server has started!!");
@@ -62,6 +64,7 @@ app.use("/", userRoute);
 app.use("/item/", itemRoute);
 app.use("/admin/", adminRoute);
 app.use("/mail/", mailRoute);
+app.use("/bidding/", biddingRoute);
 
 server.listen(5000, async () => {
     console.log("Server has started!!!  http://localhost:5000");
