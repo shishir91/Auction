@@ -36,9 +36,9 @@ const EmailVerify = () => {
 
       if (response.data.success === true) {
         navigate("/verifycode")
-        setInterval(() => {
-          alert("OTP Send")
-        }, 1000);
+      //   setInterval(() => {
+      //     alert("OTP Send")
+      //   }, 1);
       }
       else {
         alert("OTP Send Failed")
