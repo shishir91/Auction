@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Demo from "../images/auction.png";
 import api from "../api/config.js";
-const socket = io.connect("http://localhost:5000")
+import { socket } from "../App.js"
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -92,7 +92,7 @@ const Bidding = () => {
                     </h5>
                     <h6>Current Bidder: </h6>
 
-                    <div style={{ marginTop: "3rem" }}>
+                    <div style={{ marginTop: "3rem" }}> 
                         <h6>Submit Your Bid</h6>
                         <input type="number" className="p-2" onChange={(event) => { setbid(event.target.value) }} />{" "}
                         <button className="p-2 btn btn-success" onClick={placeBid}>Submit</button>
