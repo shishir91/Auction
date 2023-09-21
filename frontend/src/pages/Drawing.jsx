@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from "../api/config.js";
-import { socket } from "../App.js"
+import { io } from "socket.io-client";
 
 const Drawing = () => {
+  const socket = io.connect("http://localhost:5000/")
   const navigate = useNavigate();
   const [drawingList, setDrawingList] = useState([]);
 
