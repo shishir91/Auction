@@ -10,7 +10,7 @@ const Bidding = () => {
     const [count, setCount] = useState(0);
     const [bid, setBid] = useState()
     const [highBid, setHigBid] = useState(item.basePrice)
-    const [basePrice, setBasePrice] = useState(item.basePrice); // Added basePrice state
+    const [basePrice, setBasePrice] = useState(highBid); // Added basePrice state
 
 
     const itemID = item.id;
