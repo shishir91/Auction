@@ -12,6 +12,7 @@ const Bidding = () => {
     const [highBid, setHigBid] = useState(item.basePrice)
     const [basePrice, setBasePrice] = useState(highBid); // Added basePrice state
     const [currentBidder, setCurrentBidder] = useState("");
+    const [bidTime, setBidTime] = useState();
     const [itemresp, setitemresp] = useState();
     const username = localStorage.getItem("username");
     const userEmail = localStorage.getItem("userEmail");
@@ -43,6 +44,7 @@ const Bidding = () => {
             return false
         }
     }
+
     async function startBidding() {
         try {
             console.log("called");
@@ -98,26 +100,26 @@ const Bidding = () => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            // Your code to execute every second goes here
+
             async function getHighestBid() {
-                console.log("effect", itemID)
                 const response = await api.get(`/bidding/getHighestBid/${itemID}`)
-                console.log(response.data)
                 const itemres = await api.get(`/item/item/${itemID}`)
-                console.log(itemres.data.status)
                 try {
-                    console.log(response.data.data.bid)
                     setHigBid(response.data.data.bid)
                     setCurrentBidder(response.data.data.user);
                     setitemresp(itemres.data.status)
-                    console.log(setitemresp);
-                    console.log(itemresp);
-                    console.log(setHigBid)
-                    if (response.data) { console.log("Highest bid fetched: ", response) }
-                    else { console.log("Error fetching highest bid") }
+                    setBidTime(itemres.data.auctionDuration)
+                    console.log(itemres.data.auctionDuration)
+                    console.log("Its set bid time", setBidTime)
+                    console.log("Its bid time", bidTime)
+                    if (response.data) {
+                        console.log("Highest bid fetched: ", response)
+                    }
+                    else {
+                        console.log("Error fetching highest bid")
+                    }
                 } catch (error) {
                     console.log("server error: ", error)
-                    // alert("Server Error getting bid")
                 }
             }
             getHighestBid();
@@ -126,6 +128,15 @@ const Bidding = () => {
         return () => clearInterval(timer);
     }, []);
 
+    console.log("Its bid time", bidTime)
+
+    const originalTime = bidTime * 60 * 1000;
+
+    setTimeout(() => {
+
+
+        console.log("This code runs after 20 seconds");
+    }, originalTime);
 
     return (
         <div>
