@@ -166,7 +166,7 @@ const AuctionPanel = () => {
                   <input type="file" className="form-control" name="image" id="image" accept="image/*" onChange={(e) => setImage(e.target.files[0])} required />
                 </div>
                 <div className="col-md-3">
-                  <label htmlFor="materialUsed" className="form-label">Material Used</label>
+                  <label htmlFor="materialUsed" className="form-label">Material Used / Medium Used</label>
                   <input type="text" className="form-control" name="materialUsed" id="materialUsed" value={formData.materialUsed} onChange={handleChange} required />
                 </div>
                 <div className="col-md-3">
@@ -195,7 +195,7 @@ const AuctionPanel = () => {
           </div>
           <div className="col-md-6">
             <div className="mb-3">
-              <label htmlFor="auctionDuration" className="form-label">Auction Duration</label>
+              <label htmlFor="auctionDuration" className="form-label">Auction Duration (In Minute)</label>
               <input type="number" className="form-control" name="auctionDuration" id="auctionDuration" value={formData.auctionDuration} onChange={handleChange} required />
             </div>
             <div className="mb-3">

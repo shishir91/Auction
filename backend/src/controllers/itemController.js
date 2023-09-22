@@ -167,4 +167,35 @@ export default class ItemController {
             console.log(err);
         }
     }
+
+    async startBidding(req, res){
+        const {id} = req.body;
+        try{
+            const data = await itemModel.update({
+                status: "bidding",
+            },{
+                where:{
+                    id
+                }
+            })
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    async itemSold(req, res){
+        const {id} = req.body;
+        try{
+            const data = await itemModel.update({
+                status: sold,
+            },{
+                where:{
+                    id
+                }
+            })
+        }catch(err){
+            console.log(err);
+        }
+    }
+
 }

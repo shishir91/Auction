@@ -11,7 +11,52 @@ const Bidding = () => {
     const [bid, setBid] = useState()
     const [highBid, setHigBid] = useState(item.basePrice)
     const [basePrice, setBasePrice] = useState(highBid); // Added basePrice state
+    const [currentBidder, setCurrentBidder] = useState("");
+    const [itemresp, setitemresp] = useState();
+    const username = localStorage.getItem("username");
+    const userEmail = localStorage.getItem("userEmail");
 
+    function checkTime() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based, so we add 1 and pad with '0' if needed.
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0'); // Get the hours and pad with '0' if needed.
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // Get the minutes and pad with '0' if needed.
+        const seconds = String(date.getSeconds()).padStart(2, '0'); // Get the seconds and pad with '0' if needed.
+        const currentDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+        const Gdate = item.auctionDate + "T" + item.auctionTime;
+        console.log(currentDate);
+        console.log(Gdate);
+        if (Gdate > currentDate) {
+            console.log("Gdate is Greater");
+            return false
+        } else {
+            console.log("Date is Greater");
+            return true
+        }
+    }
+    function checkSeller() {
+        if (item.uploadedBy == userEmail) {
+            return true
+        } else {
+            return false
+        }
+    }
+    async function startBidding() {
+        try {
+            console.log("called");
+            const res = await api.post("/item/startBidding", { id: item.id })
+            if (res) {
+                console.log(res);
+                const itemData = await api.get(`/item/item/${item.id}`)
+                console.log(itemData);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
 
     const itemID = item.id;
 
@@ -36,6 +81,7 @@ const Bidding = () => {
                 if (bid > basePrice && bid > highBid) { // Check if bid is higher than basePrice
                     setHigBid(bid); // Update highBid with the new bid amount
                     setBasePrice(bid); // Update basePrice with the new bid amount
+                    // setCurrentBidder(username);
                 } else {
                     alert("Bid must be higher than the base price.")
                     return ("Bid must be higher than the base price.");
@@ -54,13 +100,18 @@ const Bidding = () => {
         const timer = setInterval(() => {
             // Your code to execute every second goes here
             async function getHighestBid() {
-
                 console.log("effect", itemID)
                 const response = await api.get(`/bidding/getHighestBid/${itemID}`)
                 console.log(response.data)
+                const itemres = await api.get(`/item/item/${itemID}`)
+                console.log(itemres.data.status)
                 try {
                     console.log(response.data.data.bid)
                     setHigBid(response.data.data.bid)
+                    setCurrentBidder(response.data.data.user);
+                    setitemresp(itemres.data.status)
+                    console.log(setitemresp);
+                    console.log(itemresp);
                     console.log(setHigBid)
                     if (response.data) { console.log("Highest bid fetched: ", response) }
                     else { console.log("Error fetching highest bid") }
@@ -96,22 +147,83 @@ const Bidding = () => {
                             }}
                         />
                     </div>
-
-                    <h4 className="mt-3">Current Bid</h4>
-                    {/* <h5>${item.basePrice < highBid.bid ? highBid.bid : item.basePrice} */}
-                    <h5>$ {highBid}
-                        &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
+                    <h4 className="mt-3">Base Price</h4>
+                    <h5>$ {item.basePrice}
                     </h5>
-                    <h6>Current Bidder:  </h6>
+                    {(checkSeller()) === true ?
+                        <div>
+                            {(checkTime()) === true ?
+                                <div>
+                                    {(itemresp) === "bidding" ?
+                                        <div>
+                                            <h4 className="mt-3">Current Bid</h4>
+                                            <h5>$ {highBid}
+                                            </h5>
+                                            <h4 className="mt-2">Current Bidder</h4>
+                                            <h5>Bidder ID: {currentBidder}</h5>
+                                            <div style={{ marginTop: "1rem" }}>
+                                                <button disabled className="btn btn-primary">Start Bidding</button>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div>
+                                            <h4 className="mt-3">Current Bid</h4>
+                                            <h5>$ {highBid}
+                                            </h5>
+                                            <h4 className="mt-3">Current Bidder</h4>
+                                            <h5>{currentBidder}</h5>
+                                            <div style={{ marginTop: "1rem" }}>
+                                                <button onClick={startBidding} className="btn btn-primary">Start Bidding</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                :
+                                <div>
+                                    <div>Auction is not started yet</div>
+                                    <div>Auction Date: {item.auctionDate}</div>
+                                    <div>Auction Time: {item.auctionTime}</div>
+                                    <button disabled className="btn btn-primary">Start Bidding</button>
+                                </div>
+                            }
+                        </div>
 
-                    <div style={{ marginTop: "3rem" }}>
-                        <form action="post" onSubmit={placeBid}>
-                            <h6>Submit Your Bid</h6>
-                            <input type="number" className="p-2" onChange={(event) => { setBid(event.target.value) }} />{" "}
-                            <button className="p-2 btn btn-success">Submit</button>
-                        </form>
-                    </div>
+                        :
+                        <div>
+                            {(checkTime()) === true ?
+                                <div>
+                                    {(itemresp) === "bidding" ?
+                                        <div>
+                                            <h4 className="mt-3">Current Bid</h4>
+                                            <h5>$ {highBid}
+                                            </h5>
+                                            <div style={{ marginTop: "1rem" }}>
+                                                <form action="post" onSubmit={placeBid}>
+                                                    <h4 className="mt-2">Current Bidder</h4>
+                                                    <h5>Bidder ID: {currentBidder}</h5>
+                                                    <h6>Submit Your Bid</h6>
+                                                    <input type="number" className="p-2" onChange={(event) => { setBid(event.target.value) }} />{" "}
+                                                    <button className="p-2 btn btn-success">Place Bid</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div>
+                                            <div>Starting Soon....</div>
+                                            <input readOnly type="number" className="p-2" />{" "}
+                                            <button disabled className="p-2 btn btn-success">Place Bid</button>
+                                        </div>
+                                    }
+                                </div>
+                                :
+                                <div>
+                                    <div>Auction is not started yet</div>
+                                    <div>Auction Date: {item.auctionDate}</div>
+                                    <div>Auction Time: {item.auctionTime}</div>
+                                </div>
+                            }
+                        </div>
+                    }
                 </div>
 
                 <div

@@ -12,19 +12,19 @@ function generateVerificationCode() {
     return verificationCode;
 }
 
+var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+        user: process.env.MT_USER,
+        pass: process.env.MT_PASS
+    }
+});
 
 export default class MailController {
     
     async sendVerificationCode(req, res) {
         const { email } = req.body
-        var transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: process.env.MT_USER,
-                pass: process.env.MT_PASS
-            }
-        });
         const generatedCode = generateVerificationCode(); // Changed variable name to 'generatedCode'
 
         console.log("This code is generated: " + generatedCode); // Changed variable name to 'generatedCode'
@@ -73,5 +73,29 @@ export default class MailController {
         } else {
             res.json({ success: false, message: "Invalid Verification Code" })
         }
+    }
+
+    async registeredAsSeller(req, res) {
+        const { email } = req.body
+
+        const mailOptions = {
+            from: 'nodeapp@nodejs',
+            to: email,
+            subject: 'Email Verification',
+            html: `<p>Dear user,</p><p>Your account has been registered as a Seller</p>
+                    <p>You can now upload your own Auctions.</p>
+                    <p>Thank You!.</p>
+                    <a href="http://localhost:3000/"><button>Click Me</button></a>`,
+                    
+        };
+        
+        transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.json({ success: true, message: "Email sent Successfully"});
+            }
+        });
     }
 }

@@ -8,4 +8,6 @@ router.post("/sendVerificationCode", mailController.sendVerificationCode);
 
 router.post("/verifyCode", mailController.verifyCode);
 
+router.post("/registerMail", mailController.registeredAsSeller)
+
 export default router;

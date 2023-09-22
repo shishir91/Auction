@@ -82,7 +82,7 @@ const Navbar = () => {
                   </li>
                 </ul>
               </li>
-              {localStorage.getItem('isAdmin')  === 'true' ?
+              {localStorage.getItem('isAdmin') === 'true' ?
                 <li className="nav-item">
                   <Link className="nav-link" to="/admin">
                     Admin
@@ -180,3 +180,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+<a href="http://localhost/3000"><button>Click Me</button></a>

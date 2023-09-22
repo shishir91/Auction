@@ -38,4 +38,8 @@ router.get("/myUploads", itemController.getMyUploads);
 
 router.get("/myPurchases", itemController.getMyPurchases);
 
+router.post("/startBidding", itemController.startBidding);
+
+router.post("/itemSold", itemController.itemSold);
+
 export default router;

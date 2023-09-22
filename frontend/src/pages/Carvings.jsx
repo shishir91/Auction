@@ -9,7 +9,7 @@ const Carvings = () => {
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await api.get("/item/category?c=carvings");
+        const response = await api.get("/item/category?c=carving");
         setCarvingsList(response.data);
       } catch (error) {
         console.error("Error fetching carvings:", error);

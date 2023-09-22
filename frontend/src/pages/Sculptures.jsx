@@ -9,7 +9,7 @@ const Sculptures = () => {
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await api.get("/item/category?c=sculptures");
+        const response = await api.get("/item/category?c=sculpture");
         setSculpturesList(response.data);
       } catch (error) {
         console.error("Error fetching sculptures:", error);
