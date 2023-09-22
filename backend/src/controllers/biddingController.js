@@ -28,7 +28,7 @@ export default class BiddingController {
                 } else {
                     console.log('No bids found for the specified item.');
                 }
-                res.json(highestBid[0])
+                res.json({data: highestBid[0]})
             })
             .catch((error) => {
                 console.error('Error:', error);
