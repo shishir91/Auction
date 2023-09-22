@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import api from "../../api/config.js"
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const PasswordChange = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  let navigate = useNavigate();
+  let location = useLocation();
+  const email = location.state.email;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await api.post("/newPassword", {
-        password: newPassword, // Use newPassword here
-        confirm_password: confirmPassword, // Use confirmPassword here
+        password: newPassword, 
+        confirm_password: confirmPassword,
+        email
       });
 
       console.log(response.data);
 
       if (response.data.success === true) {
         alert("Your Password has been changed");
+        localStorage.clear();
+        navigate("/login")
       } else {
         alert("Password change failed");
       }

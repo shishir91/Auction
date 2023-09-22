@@ -17,21 +17,25 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 var imageUpload = upload.single('image');
 
-//localhost:3000/item/delete/12
+//localhost:5000/item/delete/12
 router.delete("/delete/:id", itemController.deleteItem);
 
-//localhost:3000/item/add
+//localhost:5000/item/add
 router.post("/add", imageUpload, itemController.addItem);
 
-//localhost:3000/item/
+//localhost:5000/item/
 router.get("/", itemController.getAllItems);
 
-//localhost:3000/item/category?c="painting"
+//localhost:5000/item/category?c="painting"
 router.get("/category", itemController.getItemsByCategory);
 
-//localhost:3000/item/12
-router.get("/:id", itemController.getItemByID);
+//localhost:5000/item/12
+router.get("/item/:id", itemController.getItemByID);
 
 router.get("/search/all", itemController.searchItem);
+
+router.get("/myUploads", itemController.getMyUploads);
+
+router.get("/myPurchases", itemController.getMyPurchases);
 
 export default router;

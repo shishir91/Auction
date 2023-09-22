@@ -17,7 +17,9 @@ const AuctionPanel = () => {
     auctionDuration: '',
     basePrice: '',
     image: '',
+    uploadedBy: ''
   });
+  // const uploadedBy = localStorage.getItem("userEmail")
 
 
   const [image, setImage] = useState()
@@ -47,6 +49,7 @@ const AuctionPanel = () => {
       formDataObj.append('auctionDuration', formData.auctionDuration);
       formDataObj.append('basePrice', formData.basePrice);
       formDataObj.append('image', image);
+      formDataObj.append('uploadedBy', localStorage.getItem("userEmail"));
 
       const response = await api.post("/item/add", formDataObj);
 

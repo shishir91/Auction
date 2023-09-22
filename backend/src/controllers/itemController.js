@@ -21,23 +21,17 @@ export default class ItemController {
 
 
     async addItem(req, res) {
-        const { name, artist, description, category, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
-        // console.log(req.body)
-        let { uploadedBy } = req.body;
+        const { name, artist, description, category, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice, uploadedBy } = req.body;
+        console.log(req.body)
 
 
-        function generateRandomNumber() {   
-            const min = 10000000;  
+        function generateRandomNumber() {
+            const min = 10000000;
             const max = 99999999;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        if (!req.session.user_email) {
-            uploadedBy = "testData";
-        } else {
-            uploadedBy = req.session.user_email;
-        }
-        if (!name || !artist || !description || !category || !auctionDate || !auctionTime || !auctionDuration || !basePrice) {
+        if (!name || !artist || !description || !category || !auctionDate || !auctionTime || !auctionDuration || !basePrice || !uploadedBy) {
             return res.json({ success: "false", message: "All fields are required" })
         }
         else {
@@ -135,6 +129,42 @@ export default class ItemController {
         }
         else {
             res.json({ success: false, message: "Empty Search String" })
+        }
+    }
+
+    async getMyUploads(req, res) {
+        const { userEmail } = req.body;
+
+        const data = await itemModel.findAll({
+            where: {
+                uploadedBy: userEmail
+            },
+            raw: true
+        });
+        console.log(data);
+        for (let d of data) {
+            d.image = "http://localhost:5000/uploads/" + d.image
+            console.log(d.image);
+        }
+        res.json(data);
+    }
+
+    async getMyPurchases(req, res) {
+        const { userEmail } = req.body;
+        try {
+            const data = await itemModel.findAll({
+                where: {
+                    soldTo: userEmail
+                },
+                raw: true
+            });
+            for (let d of data) {
+                d.image = "http://localhost:5000/uploads/" + d.image
+                console.log(d.image);
+            }
+            res.json(data);
+        } catch (err) {
+            console.log(err);
         }
     }
 }

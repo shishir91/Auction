@@ -121,8 +121,7 @@ export default class UserController {
     };
 
     async newPassword(req, res) {
-        const { password, confirm_password } = req.body;
-        const email = req.session.user_email;
+        const { email, password, confirm_password } = req.body;
         const uppercaseRegex = /[A-Z]/;
         const lowercaseRegex = /[a-z]/;
         const digitRegex = /[0-9]/;
@@ -193,4 +192,6 @@ export default class UserController {
             }
         }
     }
+
+    
 }
