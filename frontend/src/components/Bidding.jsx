@@ -6,19 +6,40 @@ import api from "../api/config.js";
 
 
 const Bidding = () => {
-    const [setbid, placeBid] = useState()
     const item = useLocation().state.item;
+    const [count, setCount] = useState(0);
+    const [bid, setBid] = useState()
+    const [highBid, setHigBid] = useState(item.basePrice)
+    const [basePrice, setBasePrice] = useState(item.basePrice); // Added basePrice state
 
-    const handleBid = async (e) => {
+
+    const itemID = item.id;
+
+    const incrementCount = () => {
+        setCount(count + 1);
+    };
+
+    const placeBid = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await api.get("/bidding/getHighestBid")
+            const response = await api.post("/bidding", {
+                itemID: item.id,
+                userID: localStorage.getItem("userID"),
+                bid: bid,
+            })
 
             console.log(response.data)
 
             if (response.data.success === true) {
-                console.log("Highest bid fetched: ", response.data.highestBid)
+                console.log("Bid Placed", response.data)
+                if (bid > basePrice) { // Check if bid is higher than basePrice
+                    setHigBid(bid); // Update highBid with the new bid amount
+                    setBasePrice(bid); // Update basePrice with the new bid amount
+                } else {
+                    alert("Bid must be higher than the base price.")
+                    return ("Bid must be higher than the base price.");
+                }
             }
             else {
                 console.log("Error fetching highest bid")
@@ -28,6 +49,31 @@ const Bidding = () => {
             alert("Server Error getting bid")
         }
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            // Your code to execute every second goes here
+            async function getHighestBid() {
+
+                console.log("effect", itemID)
+                const response = await api.get(`/bidding/getHighestBid/${itemID}`)
+                console.log(response.data)
+                try {
+                    console.log(response.data.data.bid)
+                    setHigBid(response.data.data.bid)
+                    console.log(setHigBid)
+                    if (response.data) { console.log("Highest bid fetched: ", response) }
+                    else { console.log("Error fetching highest bid") }
+                } catch (error) {
+                    console.log("server error: ", error)
+                    // alert("Server Error getting bid")
+                }
+            }
+            getHighestBid();
+
+        }, 500); // 500 milliseconds = 1 second
+        return () => clearInterval(timer);
+    }, []);
 
 
     return (
@@ -52,17 +98,19 @@ const Bidding = () => {
                     </div>
 
                     <h4 className="mt-3">Current Bid</h4>
-                    <h5>$
-                        {item.basePrice}
+                    {/* <h5>${item.basePrice < highBid.bid ? highBid.bid : item.basePrice} */}
+                    <h5>$ {highBid}
                         &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
                         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 8 Bids
                     </h5>
-                    <h6>Current Bidder: </h6>
+                    <h6>Current Bidder:  </h6>
 
                     <div style={{ marginTop: "3rem" }}>
-                        <h6>Submit Your Bid</h6>
-                        <input type="number" className="p-2" onChange={(event) => { setbid(event.target.value) }} />{" "}
-                        <button className="p-2 btn btn-success" onClick={placeBid}>Submit</button>
+                        <form action="post" onSubmit={placeBid}>
+                            <h6>Submit Your Bid</h6>
+                            <input type="number" className="p-2" onChange={(event) => { setBid(event.target.value) }} />{" "}
+                            <button className="p-2 btn btn-success">Submit</button>
+                        </form>
                     </div>
                 </div>
 
@@ -124,5 +172,9 @@ const Bidding = () => {
         </div>
     );
 };
+
+
+
+
 
 export default Bidding;

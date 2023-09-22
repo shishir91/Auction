@@ -6,6 +6,6 @@ const biddingController = new BiddingController();
 
 router.post("/", biddingController.bidding);
 
-router.get("/getHighestBid", biddingController.getHighestBid);
+router.get("/getHighestBid/:itemid", biddingController.getHighestBid);
 
 export default router;

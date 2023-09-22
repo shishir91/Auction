@@ -22,7 +22,7 @@ export default class ItemController {
 
     async addItem(req, res) {
         const { name, artist, description, category, mediumUsed, materialUsed, dimension, auctionDate, auctionTime, auctionDuration, basePrice } = req.body;
-        console.log(req.body)
+        // console.log(req.body)
         let { uploadedBy } = req.body;
 
 
@@ -43,7 +43,7 @@ export default class ItemController {
         else {
 
             const data = await itemModel.create({ ...req.body, lotNumber: generateRandomNumber(), image: req.file.filename, status: "listed", uploadedBy });
-            console.log(data)
+            // console.log(data)
 
             if (data) {
                 return res.json({ success: true, message: "Item added successfully" });
@@ -63,7 +63,7 @@ export default class ItemController {
         console.log(data);
         for (let d of data) {
             d.image = "http://localhost:5000/uploads/" + d.image
-            console.log(d.image);
+            // console.log(d.image);
         }
         res.json(data);
     }
@@ -78,7 +78,7 @@ export default class ItemController {
         });
         for (let d of data) {
             d.image = "http://localhost:5000/uploads/" + d.image
-            console.log(d.image);
+            // console.log(d.image);
         }
         res.json(data);
     }
@@ -86,7 +86,7 @@ export default class ItemController {
     async getItemByID(req, res) {
         try {
             const { id } = req.params;
-            console.log(id);
+            // console.log(id);
             if (id) {
                 const data = await itemModel.findByPk(id, { raw: true });
                 console.log(data);

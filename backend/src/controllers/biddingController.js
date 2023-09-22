@@ -14,10 +14,10 @@ export default class BiddingController {
     }
 
     async getHighestBid(req, res) {
-        const { itemID } = req.body;
+        const { itemid } = req.params;
         const data = await bidModel.findAll({
             where: {
-                item: itemID
+                item: itemid
             },
             order: [['bid', 'DESC']], // Order by bidValue in descending order
         })
@@ -28,7 +28,8 @@ export default class BiddingController {
                 } else {
                     console.log('No bids found for the specified item.');
                 }
-                res.json(highestBid[0])
+                res.json({data: highestBid[0]})
+                console.log(highestBid[0])
             })
             .catch((error) => {
                 console.error('Error:', error);

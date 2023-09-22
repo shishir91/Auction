@@ -87,7 +87,7 @@ export default class UserController {
             req.session.user_type = user.type;
             req.session.user_status = user.status;
             console.log(req.session)
-            return res.json({ success: true, message: "Login successful", user_name: user.fullname, user_email: user.email, user_type: user.type, user_status: user.status });
+            return res.json({ success: true, message: "Login successful", user_id: user.id, user_name: user.fullname, user_email: user.email, user_type: user.type, user_status: user.status });
             console.log('Login successful');
         } else {
             return res.json({ success: false, message: "Incorrect password" });

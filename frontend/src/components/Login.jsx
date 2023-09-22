@@ -68,6 +68,7 @@ const Login = () => {
                 localStorage.setItem('Seller', Seller)
                 localStorage.setItem('userEmail', data.user_email)
                 localStorage.setItem('username', data.user_name)
+                localStorage.setItem('userID', data.user_id)
 
                 navigate("/")
                 alert("Thank You, Login Success: Please Procced")
