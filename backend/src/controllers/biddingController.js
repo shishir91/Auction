@@ -29,7 +29,7 @@ export default class BiddingController {
                     console.log('No bids found for the specified item.');
                 }
                 res.json({data: highestBid[0]})
-                console.log(highestBid[0])
+
             })
             .catch((error) => {
                 console.error('Error:', error);
