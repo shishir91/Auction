@@ -33,6 +33,8 @@ const EmailVerify = () => {
     try {
       const response = await api.post("/mail/sendVerificationCode", { email })
       console.log(response.data)
+      localStorage.setItem("sentCode", response.data.generatedCode)
+      console.log(localStorage.getItem("sentCode"));
 
       if (response.data.success === true) {
         navigate("/verifycode", { state: { email: email } })

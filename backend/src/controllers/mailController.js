@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import nodemailer from "nodemailer";
+import "dotenv/config";
 
 function generateVerificationCode() {
     const length = 6;
@@ -11,20 +12,20 @@ function generateVerificationCode() {
     return verificationCode;
 }
 
-const generatedCode = generateVerificationCode(); // Changed variable name to 'generatedCode'
 
 export default class MailController {
-
+    
     async sendVerificationCode(req, res) {
         const { email } = req.body
         var transport = nodemailer.createTransport({
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
             auth: {
-                user: "22e86f837e6066",
-                pass: "0d808d78a12a26"
+                user: process.env.MT_USER,
+                pass: process.env.MT_PASS
             }
         });
+        const generatedCode = generateVerificationCode(); // Changed variable name to 'generatedCode'
 
         console.log("This code is generated: " + generatedCode); // Changed variable name to 'generatedCode'
 
@@ -40,13 +41,13 @@ export default class MailController {
             } else {
                 req.session.sentcode = generatedCode; // Changed variable name to 'generatedCode'
                 console.log('Email sent: ' + info.response + req.session.sentcode);
-                res.json({ success: true, message: "Email sent Successfully" });
+                res.json({ success: true, message: "Email sent Successfully", generatedCode: generatedCode});
             }
         });
     };
 
     async verifyCode(req, res) {
-        const sentCode = generatedCode;
+        const {sentCode} = req.body;
         const { code } = req.body;
         const { email } = req.body;
         console.log(email)
@@ -55,7 +56,7 @@ export default class MailController {
 
         if (!code) {
             res.json({ success: false, message: "Enter Verification Code" });
-        } else if (code.toString() === sentCode) {
+        } else if (code === sentCode) {
             const data = await userModel.update({
                 verified: true
             }, {

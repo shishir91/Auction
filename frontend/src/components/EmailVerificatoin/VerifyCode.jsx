@@ -9,21 +9,22 @@ const VerifyCode = () => {
 
     const handleVerification = async () => {
         const email = location.state.email;
+        const sentCode = localStorage.getItem("sentCode")
 
         try {
-            const response = await api.post("/mail/verifycode", { code, email });
+            const response = await api.post("/mail/verifycode", { code, email, sentCode });
+            console.log(response);
             console.log(response.data);
 
             if (response.data.success === true) {
                 alert("Email verified");
-                navigate('/password', { state: { email: email } });
-                console.log(response.data);
+                navigate("/password", { state: { email: email } })
             }
             else {
                 alert("Please Enter correct OTP");
             }
         } catch (error) {
-            console.log("OTP Error: ", error)
+            console.error("OTP Error: ", error)
             alert("Server Error, Sorry");
         }
     };
@@ -32,7 +33,7 @@ const VerifyCode = () => {
         <div className="container d-flex justify-content-center align-items-center vh-100">
             <div className="card p-4">
                 <h2 className="text-center mb-4">Enter Verification Code</h2>
-                <form onSubmit={handleVerification}>
+                <div >
                     <div className="mb-3">
                         <label htmlFor="verificationCode" className="form-label">
                             Verification Code
@@ -47,11 +48,11 @@ const VerifyCode = () => {
                         />
                     </div>
                     <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
+                        <button onClick={handleVerification} type="submit" className="btn btn-primary">
                             Verify Code
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     );
