@@ -33,7 +33,7 @@ const Bidding = () => {
 
             if (response.data.success === true) {
                 console.log("Bid Placed", response.data)
-                if (bid > basePrice) { // Check if bid is higher than basePrice
+                if (bid > basePrice && bid > highBid) { // Check if bid is higher than basePrice
                     setHigBid(bid); // Update highBid with the new bid amount
                     setBasePrice(bid); // Update basePrice with the new bid amount
                 } else {
