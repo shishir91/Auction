@@ -1,18 +1,22 @@
 import userModel from "../models/userModel.js";
 import nodemailer from "nodemailer";
 
-export default class MailController{
+function generateVerificationCode() {
+    const length = 6;
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let verificationCode = "";
+    for (let i = 0; i < length; i++) {
+        verificationCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return verificationCode;
+}
+
+const generatedCode = generateVerificationCode(); // Changed variable name to 'generatedCode'
+
+export default class MailController {
+
     async sendVerificationCode(req, res) {
-        const {email} = req.body
-        function generateVerificationCode() { 
-            const length = 6;
-            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            let verificationCode = "";
-            for (let i = 0; i < length; i++) {
-                verificationCode += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return verificationCode;
-        }
+        const { email } = req.body
         var transport = nodemailer.createTransport({
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
@@ -21,21 +25,20 @@ export default class MailController{
                 pass: "0d808d78a12a26"
             }
         });
-        const code = generateVerificationCode();
 
-        console.log("This code is generated: " + code)
-    
+        console.log("This code is generated: " + generatedCode); // Changed variable name to 'generatedCode'
+
         const mailOptions = {
             from: 'nodeapp@nodejs',
             to: email,
             subject: 'Email Verification',
-            html: `<p>Dear user,</p><p>Your Verification Code is:   ${code} </p>`
+            html: `<p>Dear user,</p><p>Your Verification Code is:   ${generatedCode} </p>` // Changed variable name to 'generatedCode'
         };
         transport.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error);
             } else {
-                req.session.sentcode = code;
+                req.session.sentcode = generatedCode; // Changed variable name to 'generatedCode'
                 console.log('Email sent: ' + info.response + req.session.sentcode);
                 res.json({ success: true, message: "Email sent Successfully" });
             }
@@ -43,23 +46,21 @@ export default class MailController{
     };
 
     async verifyCode(req, res) {
+        const sentCode = generatedCode;
         const { code } = req.body;
-        const sentCode = req.session.sentcode;
-        const email = req.session.user_email;
-        const temail = email.trim();
-        // console.log(email);
-        // console.log(temail);
-        // console.log(code);
-        // console.log(sentCode);
-    
+        const { email } = req.body;
+        console.log(email)
+        console.log(code)
+        console.log(sentCode)
+
         if (!code) {
             res.json({ success: false, message: "Enter Verification Code" });
-        } else if (code == sentCode) {
+        } else if (code.toString() === sentCode) {
             const data = await userModel.update({
                 verified: true
             }, {
                 where: {
-                    email: temail
+                    email: email
                 }
             });
             console.log(data[0]);

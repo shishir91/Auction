@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import api from "../../api/config.js"
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const VerifyCode = () => {
-    const [verificationCode, setVerificationCode] = useState('');
+    const [code, setCode] = useState('');
+    let navigate = useNavigate();
+    let location = useLocation();
 
-    const handleVerification = () => {
-        
-        const response = api.post("/sendVerificationCode")
+    const handleVerification = async () => {
+        const email = location.state.email;
 
+        try {
+            const response = await api.post("/mail/verifycode", { code, email });
+            console.log(response.data);
+
+            if (response.data.success === true) {
+                alert("Email verified");
+                navigate('/password', { state: { email: email } });
+                console.log(response.data);
+            }
+            else {
+                alert("Please Enter correct OTP");
+            }
+        } catch (error) {
+            console.log("OTP Error: ", error)
+            alert("Server Error, Sorry");
+        }
     };
 
     return (
@@ -23,8 +41,8 @@ const VerifyCode = () => {
                             type="text"
                             className="form-control"
                             id="verificationCode"
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
+                            value={code} // Using 'code' as the variable name
+                            onChange={(e) => setCode(e.target.value)}
                             required
                         />
                     </div>

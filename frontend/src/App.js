@@ -26,7 +26,6 @@ function App() {
     <>
       <Router>
         <Navbar />
-        
         <Routes>
           <Route exact path='/login' element={<Login/>} />
           <Route exact path='/signup' element={<Signup/>} />
@@ -45,8 +44,8 @@ function App() {
           <Route exact path='/userlist' element={<UserList/>} />
           <Route exact path='/register' element={<Register/>} />
           <Route exact path='/verifyemail' element={<EmailVerify/>} />
-          <Route exact path='/newpassword' element={<PasswordChange/>} />
           <Route exact path='/verifycode' element={<VerifyCode/>} />
+          <Route exact path='/password' element={<PasswordChange/>} />
         </Routes>
       </Router>
     </>

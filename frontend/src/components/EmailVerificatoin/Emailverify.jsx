@@ -35,7 +35,7 @@ const EmailVerify = () => {
       console.log(response.data)
 
       if (response.data.success === true) {
-        navigate("/verifycode")
+        navigate("/verifycode", { state: { email: email } })
       //   setInterval(() => {
       //     alert("OTP Send")
       //   }, 1);
