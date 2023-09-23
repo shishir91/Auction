@@ -141,7 +141,7 @@ const Login = () => {
                                 </button>
                             </div>
                             <div className="d-flex justify-content-center">
-                                New User? &nbsp; <a href="#" className="text-decoration-none text-success"> <b> Create Your Account </b></a>
+                                New User? &nbsp; <a href="/signup" className="text-decoration-none text-success"> <b> Create Your Account </b></a>
                             </div>
                         </form>
                     </div>

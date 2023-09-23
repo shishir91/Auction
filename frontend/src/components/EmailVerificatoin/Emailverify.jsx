@@ -34,6 +34,7 @@ const EmailVerify = () => {
       const response = await api.post("/mail/sendVerificationCode", { email })
       console.log(response.data)
       localStorage.setItem("sentCode", response.data.generatedCode)
+      localStorage.setItem("forgotPassword", true)
       console.log(localStorage.getItem("sentCode"));
 
       if (response.data.success === true) {

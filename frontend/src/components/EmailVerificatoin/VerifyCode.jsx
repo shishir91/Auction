@@ -17,8 +17,13 @@ const VerifyCode = () => {
             console.log(response.data);
 
             if (response.data.success === true) {
-                alert("Email verified");
-                navigate("/password", { state: { email: email } })
+                if(localStorage.getItem("forgotPassword")){
+                    alert("Email verified, You can now change your Password");
+                    navigate("/password", { state: { email: email } })
+                }else{
+                    alert("Email verified, Procced to Login");
+                    navigate("/login", { state: { email: email } })
+                }
             }
             else {
                 alert("Please Enter correct OTP");

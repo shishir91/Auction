@@ -19,6 +19,7 @@ import Register from './components/Register';
 import EmailVerify from './components/EmailVerificatoin/Emailverify';
 import PasswordChange from './components/EmailVerificatoin/PasswordChange';
 import VerifyCode from './components/EmailVerificatoin/VerifyCode';
+import Loader from './components/Loader';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route exact path='/verifyemail' element={<EmailVerify/>} />
           <Route exact path='/verifycode' element={<VerifyCode/>} />
           <Route exact path='/password' element={<PasswordChange/>} />
+          <Route exact path='/loader' element={<Loader/>} />
         </Routes>
       </Router>
     </>

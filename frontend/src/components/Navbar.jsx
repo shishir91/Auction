@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BsSearch, BsPersonCircle, BsChevronDown } from "react-icons/bs";
+import api from "../api/config.js"
 
 const Navbar = () => {
   let navigate = useNavigate();
   const [isDropDown, setDropDown] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  
   const toggleDropDown = () => {
     setDropDown(!isDropDown);
   };
-
+  
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
     window.location.reload(false);
   }
+  
+  
 
 
   return (
@@ -107,30 +110,7 @@ const Navbar = () => {
                   </Link>
                 </li>} */}
             </ul>
-
-            <form
-              className="d-flex mx-auto "
-              style={{ width: "40rem", margin: "1px" }}
-            >
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search..."
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                />
-                <div className="input-group-append">
-                  <button
-                    className="btn btn-outline-secondary mx-3"
-                    style={{ width: "4rem" }}
-                    type="button"
-                  >
-                    <BsSearch />
-                  </button>
-                </div>
-              </div>
-            </form>
+            
 
 
             {!localStorage.getItem('login') ? <form className="d-flex" role="search">

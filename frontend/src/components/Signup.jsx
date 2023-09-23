@@ -3,6 +3,8 @@ import Auction from "../images/auction.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useNavigationType } from "react-router-dom";
+import api from "../api/config.js"
+import Loader from './Loader'
 
 // Add this custom CSS class to position the icon
 const inputGroupWithIcon = {
@@ -21,6 +23,7 @@ const iconStyle = {
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -87,188 +90,201 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/signup" , {
+      const response = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: {
-          "Content-Type" : "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
-      if(!response.ok) {
-        throw new Error(`Http Error! Status: ${response.status}`);
-      }
+      // if(!response.ok) {
+      //   throw new Error(`Http Error! Status: ${response.status}`);
+      // }
 
       const data = await response.json();
 
-      if(data.success) {
-        navigate("/login")
-        alert("Thank You Your Registration is Successful, Please Login to procced,")
+      if (data.success) {
+        setIsLoading(true);
+        const sendEmail = await api.post("/mail/sendVerificationCode", { email: formData.email })
+        localStorage.setItem("sentCode", sendEmail.data.generatedCode)
+        setIsLoading(false);
+        if (sendEmail) {
+          alert("Thank You Your Registration is Successful, OTP is sent in your Email, Please procced to verify")
+          navigate("/verifycode", { state: { email: formData.email } })
+        }
       }
-      else{
+      else {
+        console.log(data.message);
         alert(data.message);
       }
 
     } catch (error) {
-      console.error("Error during signup:" , error)
+      console.error("Error during signup:", error)
 
     }
 
   }
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        {/* <!-- Image Section --> */}
-        <div className="col-md-6 d-none d-md-block">
-          <img
-            src={Auction}
-            alt="Login Image"
-            className="custom-img p-3 m-3"
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-            }}
-          />
-        </div>
+    <div>
+      {isLoading ? (
+        <div id="loader"><Loader/></div>
+      ) : (
+        <div className="container-fluid">
+          <div className="row">
+            {/* <!-- Image Section --> */}
+            <div className="col-md-6 d-none d-md-block">
+              <img
+                src={Auction}
+                alt="Login Image"
+                className="custom-img p-3 m-3"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
+              />
+            </div>
 
-        {/* <!-- Login Form Section --> */}
-        <div className="col-md-6 col-sm-12">
-          <div className="m-3 p-3">
-            <form className="p-4" onSubmit={handleSubmit}>
-              <h1>
-                <b>Welcome to the Auction House</b>
-              </h1>
-              <h3>Bid on Your Favorite</h3>
-              <br />
-              <h6>Enter Your Details Below</h6>
+            {/* <!-- Login Form Section --> */}
+            <div className="col-md-6 col-sm-12">
+              <div className="m-3 p-3">
+                <form className="p-4" onSubmit={handleSubmit}>
+                  <h1>
+                    <b>Welcome to the Auction House</b>
+                  </h1>
+                  <h3>Bid on Your Favorite</h3>
+                  <br />
+                  <h6>Enter Your Details Below</h6>
 
-              {/* Full Name input */}
-              <div className="form-group m-1">
-                <input
-                  type="text"
-                  className="form-control mt-2 p-3 h-4 border-dark text-success "
-                  id="fullName"
-                  name="name"
-                  required
-                  placeholder="Full Name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              {/* Email input */}
-              <div className="form-group m-1">
-                <input
-                  type="email"
-                  className="form-control mt-2 p-3 h-4 border-dark text-success "
-                  id="email"
-                  name="email"
-                  required
-                  placeholder="Email Address"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              {/* Phone Number input */}
-              <div className="form-group m-1" style={inputGroupWithIcon}>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <select className="form-control mt-2 p-3 h-4 border-dark">
-                      <option value="+1">+1 (USA)</option>
-                      <option value="+44">+44 (UK)</option>
-                      <option value="+44">+977 (Nepal)</option>
-                    </select>
+                  {/* Full Name input */}
+                  <div className="form-group m-1">
+                    <input
+                      type="text"
+                      className="form-control mt-2 p-3 h-4 border-dark text-success "
+                      id="fullName"
+                      name="name"
+                      required
+                      placeholder="Full Name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                    />
                   </div>
-                  &nbsp;&nbsp;
-                  <input
-                    type="tel"
-                    className="form-control mt-2 p-3 h-4 border-dark text-success "
-                    id="phoneNumber"
-                    name="phone"
-                    required
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
 
-              {/* Password input */}
-              <div className="form-group m-1" style={inputGroupWithIcon}>
-                <div className="input-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control mt-2 p-3 h-4 border-dark text-success "
-                    id="password"
-                    name="password"
-                    required
-                    placeholder="Password"
-                    minLength={8}
-                    value={formData.password}
-                    onChange={handleInputChange}
-                  />
-                  <div className="input-group-append">
-                    <span
-                      className="input-group-text"
-                      style={iconStyle}
-                      onClick={togglePasswordVisibility}
+                  {/* Email input */}
+                  <div className="form-group m-1">
+                    <input
+                      type="email"
+                      className="form-control mt-2 p-3 h-4 border-dark text-success "
+                      id="email"
+                      name="email"
+                      required
+                      placeholder="Email Address"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  {/* Phone Number input */}
+                  <div className="form-group m-1" style={inputGroupWithIcon}>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <select className="form-control mt-2 p-3 h-4 border-dark">
+                          <option value="+1">+1 (USA)</option>
+                          <option value="+44">+44 (UK)</option>
+                          <option value="+44">+977 (Nepal)</option>
+                        </select>
+                      </div>
+                      &nbsp;&nbsp;
+                      <input
+                        type="tel"
+                        className="form-control mt-2 p-3 h-4 border-dark text-success "
+                        id="phoneNumber"
+                        name="phone"
+                        required
+                        placeholder="Phone Number"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Password input */}
+                  <div className="form-group m-1" style={inputGroupWithIcon}>
+                    <div className="input-group">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control mt-2 p-3 h-4 border-dark text-success "
+                        id="password"
+                        name="password"
+                        required
+                        placeholder="Password"
+                        minLength={8}
+                        value={formData.password}
+                        onChange={handleInputChange}
+                      />
+                      <div className="input-group-append">
+                        <span
+                          className="input-group-text"
+                          style={iconStyle}
+                          onClick={togglePasswordVisibility}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Confirm Password input */}
+                  <div className="form-group m-1" style={inputGroupWithIcon}>
+                    <div className="input-group">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control mt-2 p-3 h-4 border-dark text-success "
+                        id="confirmPassword"
+                        name="cpassword"
+                        required
+                        placeholder="Confirm Password"
+                        minLength={8}
+                        value={formData.cpassword}
+                        onChange={handleInputChange}
+                      />
+                      <div className="input-group-append">
+                        <span
+                          className="input-group-text"
+                          style={iconStyle}
+                          onClick={togglePasswordVisibility}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Submit button */}
+                  <div className="mt-3">
+                    <button
+                      type="submit"
+                      className="btn btn-success fw-bold btn-block"
                     >
-                      <FontAwesomeIcon icon={faEye} />
-                    </span>
+                      Sign Up
+                    </button>
                   </div>
-                </div>
-              </div>
 
-              {/* Confirm Password input */}
-              <div className="form-group m-1" style={inputGroupWithIcon}>
-                <div className="input-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control mt-2 p-3 h-4 border-dark text-success "
-                    id="confirmPassword"
-                    name="cpassword"
-                    required
-                    placeholder="Confirm Password"
-                    minLength={8}
-                    value={formData.cpassword}
-                    onChange={handleInputChange}
-                  />
-                  <div className="input-group-append">
-                    <span
-                      className="input-group-text"
-                      style={iconStyle}
-                      onClick={togglePasswordVisibility}
-                    >
-                      <FontAwesomeIcon icon={faEye} />
-                    </span>
+                  {/* Already have an account */}
+                  <div className="d-flex justify-content-center">
+                    Already have an account? &nbsp;{" "}
+                    <a href="/login" className="text-decoration-none text-success">
+                      {" "}
+                      <b> Login </b>
+                    </a>
                   </div>
-                </div>
+                </form>
               </div>
-
-              {/* Submit button */}
-              <div className="mt-3">
-                <button
-                  type="submit"
-                  className="btn btn-success fw-bold btn-block"
-                >
-                  Sign Up
-                </button>
-              </div>
-
-              {/* Already have an account */}
-              <div className="d-flex justify-content-center">
-                Already have an account? &nbsp;{" "}
-                <a href="#" className="text-decoration-none text-success">
-                  {" "}
-                  <b> Login </b>
-                </a>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

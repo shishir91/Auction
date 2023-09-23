@@ -36,7 +36,6 @@ const Sculptures = () => {
                     <p className="card-text">By: {item.artist}</p>
                     <p className="card-text">Uploaded By: {item.uploadedBy}</p>
                     <b><p style={{ fontWeight: 'bold' }} className="card-text">$ {item.basePrice}</p></b>
-                    <Link to="/bidding" className="btn btn-primary">Start Bidding</Link>
                   </div>
                 </div>
               </div>

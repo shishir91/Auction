@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { BsSearch, BsPersonCircle, BsChevronDown } from "react-icons/bs";
 import api from "../api/config.js";
 
 const Home = (isLoggedIn) => {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
+    let location = useLocation();
     const [itemList, setItemList] = useState([]);
-    
+    const [tempItemList, setTempItemList] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         async function fetchItems() {
             try {
                 const response = await api.get("/item");
                 setItemList(response.data);
+                setTempItemList(response.data);
             } catch (error) {
                 console.error("Error fetching items:", error);
             }
@@ -19,8 +23,47 @@ const Home = (isLoggedIn) => {
         fetchItems();
     }, []);
 
+    useEffect(() => {
+        async function searchItems() {
+            const response = await api.get(`/item/search/all?q=${searchText}`)
+            if (response.data) {
+                console.log(response.data);
+                setItemList(response.data);
+            }
+        }
+        if (searchText) searchItems();
+        else setItemList(tempItemList);
+    }, [searchText])
+
     return (
         <>
+            <center>
+                <div
+                    className="d-flex mx-auto "
+                    style={{ width: "40rem", margin: "1px" }}
+                >
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search..."
+                            aria-label="Search"
+                            aria-describedby="basic-addon2"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                        />
+                        <div className="input-group-append">
+                            <button
+                                className="btn btn-outline-secondary mx-3"
+                                style={{ width: "4rem" }}
+                                type="button"
+                            >
+                                <BsSearch />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </center>
             <div>
                 <h4 className='mx-4 px-3'>Current Biddings</h4>
                 <div className="container">
@@ -38,7 +81,6 @@ const Home = (isLoggedIn) => {
                                             <p className="card-text">By: {item.artist}</p>
                                             <p className="card-text">Uploaded By: {item.uploadedBy}</p>
                                             <b><p style={{ fontWeight: 'bold' }} className="card-text">$ {item.basePrice}</p></b>
-                                            <Link to="/bidding" className="btn btn-primary">Start Bidding</Link>
                                         </div>
                                     </div>
                                 </div>

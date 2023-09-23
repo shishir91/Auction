@@ -124,7 +124,8 @@ const UserProfile = () => {
                             </div>
 
                         </div>
-                    </div><div className="container pb-3 border-bottom border-black ">
+                    </div>
+                    <div className="container pb-3 border-bottom border-black ">
                         <h3>My Purchases</h3>
                         <div className=" d-flex overflow-x-scroll">
                             <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
@@ -198,8 +199,83 @@ const UserProfile = () => {
                     </div>
                 </div>
             ) : (
-                <div>
-                    <Link to="/register"><button className="btn Auction_Button">Register</button></Link>
+                <div className="container">
+                    <div className="container pb-3 border-bottom border-black d-flex justify-content-center align-item-center">
+                        <span className="h5 mr-10">Register as a Seller</span>
+                        <Link to="/register"><button className=" btn Auction_Button">Register</button></Link>
+                    </div>
+                    <div className="container pb-3 border-bottom border-black ">
+                        <h3>My Purchases</h3>
+                        <div className=" d-flex overflow-x-scroll">
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                <div className="d-flex">
+                                    <h6 className="mx-3">Item Name</h6>
+                                    <h6>Price Saled on</h6>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             )
             }

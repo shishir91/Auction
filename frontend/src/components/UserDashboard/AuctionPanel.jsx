@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import api from "../../api/config.js"
+import { useNavigate } from "react-router-dom";
 
 const AuctionPanel = () => {
+  let navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     artist: '',
@@ -79,6 +81,7 @@ const AuctionPanel = () => {
         // });
 
         alert("Item is Added");
+        navigate("/dashboard");
       } else {
         alert("Error adding item")
         throw new Error("Error adding item");
