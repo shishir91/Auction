@@ -37,7 +37,7 @@ const Home = (isLoggedIn) => {
 
     return (
         <>
-            <center>
+            <center className='mt-3 mb-3'>
                 <div
                     className="d-flex mx-auto "
                     style={{ width: "40rem", margin: "1px" }}
@@ -67,7 +67,7 @@ const Home = (isLoggedIn) => {
             <div>
                 <div className="container">
                     <div className="row">
-                        <h4 className='mx-4 px-3'>Current Biddings</h4>
+                        <h4 className='mx-3 mb-3 px-3'>Current Biddings</h4>
                         {itemList.length > 0 ?
                             itemList.sort((a, b) => b.id - a.id).filter(item => item.status === "bidding").map((item, index) => {
                                 return (
@@ -111,8 +111,8 @@ const Home = (isLoggedIn) => {
                                                 onClick={() => navigate("/bidding", { state: { item } })}
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                <div className="card">
-                                                    <img src={item.image} className="card-img-top" alt={item.name} />
+                                                <div className="card" style={{border: "none", margin: "0.4rem", boxShadow:" rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px"}}>
+                                                    <img src={item.image} className="card-img-top" alt={item.name}  style={{height: "10rem", width: "fit-content"}}/>
                                                     <div className="card-body">
                                                         <h5 style={{ fontWeight: 'bold' }} className="card-title">{item.name}</h5>
                                                         <p className="card-text">By: {item.artist}</p>
@@ -136,47 +136,6 @@ const Home = (isLoggedIn) => {
                         }
                     </div>
                 </div>
-
-
-                {/* <h4 className='mx-4 px-3'>Openning Soon</h4>
-                <div className='container m-3 p-3 d-flex'>
-                    <div className="card m-3" style={{ "width": "18rem" }} >
-                        <img src="..." className="card-img-top" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div className="card m-3" style={{ "width": "18rem" }} >
-                        <img src="..." className="card-img-top" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div className="card m-3" style={{ "width": "18rem" }} >
-                        <img src="..." className="card-img-top" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div className="card m-3" style={{ "width": "18rem" }} >
-                        <img src="..." className="card-img-top" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-
-                    <div className='view-more d-flex align-items-center justify-content-center'>
-                        <button className='btn btn-primary' style={{ "width": "6rem", "height": "4rem" }}> View More</button>
-                    </div>
-                </div> */}
             </div>
 
         </>

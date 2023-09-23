@@ -75,13 +75,13 @@ const UserProfile = () => {
                 </div>
             </div>
             {userSeller === "true" ? (
-                <div>
-                    <div className="container pb-3 border-bottom border-black ">
+                <div className="conatiner" style={{width: "100rem"}}>
+                    <div className=" pb-3 border-bottom border-black ">
                         <div className="d-flex justify-content-between">
                             <h3>My Ads</h3>
                             <Link to="/auctionpanel"> <button className="btn Auction_Button">Create Auction</button></Link>
                         </div>
-                        <div className=" d-flex overflow-x-scroll">
+                        <div className=" d-flex overflow-x-auto">
                             {myUploads.length > 0 ?
                                 myUploads.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (
@@ -106,9 +106,9 @@ const UserProfile = () => {
                             }
                         </div>
                     </div>
-                    <div className="container pb-3 border-bottom border-black ">
+                    <div className=" pb-3 border-bottom border-black ">
                         <h3>My Purchases</h3>
-                        <div className=" d-flex overflow-x-scroll">
+                        <div className=" d-flex overflow-x-auto">
                             {myPurchases.length > 0 ?
                                 myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (
@@ -137,12 +137,12 @@ const UserProfile = () => {
             ) : (
                 <div className="container">
                     <div className="container pb-3 border-bottom border-black d-flex justify-content-center align-item-center">
-                        <span className="h5 mr-10">Register as a Seller</span>
-                        <Link to="/register"><button className=" btn Auction_Button">Register</button></Link>
+                        <span className="h5">Register as a Seller</span>
+                        <Link to="/register"><button className="mx-3  btn Auction_Button">Register</button></Link>
                     </div>
                     <div className="container pb-3 border-bottom border-black ">
                         <h3>My Purchases</h3>
-                        <div className=" d-flex overflow-x-scroll">
+                        <div className=" d-flex overflow-x-auto">
                             {myPurchases.length > 0 ?
                                 myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (

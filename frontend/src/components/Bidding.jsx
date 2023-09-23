@@ -125,9 +125,6 @@ const Bidding = () => {
         }, 500); // 500 milliseconds = 1 second
         return () => clearInterval(timer);
     }, []);
-
-    console.log("Its bid time", bidTime)
-
     const originalTime = bidTime * 60 * 1000;
 
     async function asd() {
@@ -140,13 +137,11 @@ const Bidding = () => {
         console.log(soldItem);
     };
 
-    // useEffect(() => {
     if (itemresp === "bidding") {
         setTimeout(() => {
             asd();
         }, originalTime);
     };
-    // }, []);
 
     return (
         <div>
@@ -267,51 +262,41 @@ const Bidding = () => {
                     }}
                 >
                     <h4>{item.name}</h4>
-                    <h6>By The Name of the Artist or Whatever</h6> <br />
-                    <h5>Description</h5>
-                    <p>
-                        {item.description}
-                    </p>
-                    <h5>Product Details</h5>
-                    <ul>
-                        <li className="d-flex">
-                            <b>Dimension: &nbsp; </b> <p>{item.description}</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Frame: &nbsp;</b> <p>{item.frame}</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Artist: &nbsp;</b> <p>{item.artist}</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Piece Title: &nbsp;</b> <p>{item.pieceTitle}</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Period/Date of Production: &nbsp;</b> <p>{item.producedYear}</p>
-                        </li>
-                    </ul>
-                    <h5>Auctions Details</h5>
-                    <ul>
-                        <li className="d-flex">
-                            <b>Auction Title: &nbsp; </b>{" "}
-                            <p>
-                                21st Century English Painting from Emergent Artist - The Blast
-                                Collection
-                            </p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Location: &nbsp;</b> <p>Minimalist Black Metallic Frame</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Auction Date: &nbsp;</b> <p>Charles Bellender</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Lot Reference Number: &nbsp;</b> <p>Emergent Wealth</p>
-                        </li>
-                        <li className="d-flex">
-                            <b>Lot Number: &nbsp;</b> <p>2006</p>
-                        </li>
-                    </ul>
+                    <h6>By: {item.artist}</h6>
+                    <h6>Uploaded By: {item.uploadedBy}</h6>
+                    <div className="row" style={{marginTop: "2rem"}}>
+                        <div className="col-md-6">
+
+                            <h4>Product Details</h4>
+                            <ul className="mt-3 pt-1">
+                                <li className="d-flex">
+                                    <b>Dimension: &nbsp; </b> <p>{item.dimension}</p>
+                                </li>
+                                <li className="d-flex">
+                                    <b>Category: &nbsp;</b> <p>{item.category}</p>
+                                </li>
+                                <li className="d-flex">
+                                    <b>Classification: &nbsp;</b> <p>{item.subjectClassification}</p>
+                                </li>
+                                <li className="d-flex">
+                                    <b>Material Used: &nbsp;</b> <p>{item.materialUsed}</p>
+                                </li>
+                                <li className="d-flex">
+                                    <b>Period/Date of Production: &nbsp;</b> <p>{item.producedYear}</p>
+                                </li>
+                                <li className="d-flex">
+                                    <b>Lot Number: &nbsp;</b> <p>{item.lotNumber}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="container mt-3">
+                        <h4>Description</h4>
+                        <p className="" style={{textAlign: "justify"}}>
+                            {item.description}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
