@@ -86,10 +86,10 @@ const UserProfile = () => {
                                 myUploads.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (
                                         <>
-                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={item.image} alt="" style={{ width: "10rem", }} /></Link>
                                                 <div className="">
                                                     <h6 className="">{item.name}</h6>
-                                                    <h6>Base Price: {item.basePrice}</h6>
+                                                    <h6>Base Price: ${item.basePrice}</h6>
                                                 </div>
                                             </div>
                                         </>
@@ -113,10 +113,10 @@ const UserProfile = () => {
                                 myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (
                                         <>
-                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                                <div className="d-flex">
-                                                    <h6 className="mx-3">Item Name</h6>
-                                                    <h6>Price Saled on</h6>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={item.image} alt="" style={{ width: "10rem", }} /></Link>
+                                                <div className="">
+                                                    <h6 className="">{item.name}</h6>
+                                                    <h6>Purchased At: ${item.soldPrice}</h6>
                                                 </div>
                                             </div>
                                         </>
@@ -147,10 +147,10 @@ const UserProfile = () => {
                                 myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
                                     return (
                                         <>
-                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                                <div className="d-flex">
-                                                    <h6 className="mx-3">Item Name</h6>
-                                                    <h6>Price Saled on</h6>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={item.image} alt="" style={{ width: "10rem", }} /></Link>
+                                                <div className="">
+                                                    <h6 className="">{item.name}</h6>
+                                                    <h6>Purchased At: ${item.soldPrice}</h6>
                                                 </div>
                                             </div>
                                         </>

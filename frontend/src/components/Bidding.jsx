@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api/config.js";
 
 const Bidding = () => {
+    const navigate = useNavigate();
     const item = useLocation().state.item;
     const [count, setCount] = useState(0);
     const [bid, setBid] = useState()
@@ -13,6 +14,11 @@ const Bidding = () => {
     const [itemresp, setitemresp] = useState();
     const username = localStorage.getItem("username");
     const userEmail = localStorage.getItem("userEmail");
+
+    // if(!userEmail){
+    //     alert("You need to login first")
+    //     navigate("/login")
+    // }
 
     function checkTime() {
         const date = new Date();

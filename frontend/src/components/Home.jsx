@@ -9,6 +9,7 @@ const Home = (isLoggedIn) => {
     const [itemList, setItemList] = useState([]);
     const [tempItemList, setTempItemList] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const userEmail = localStorage.getItem("userEmail");
 
     useEffect(() => {
         async function fetchItems() {
@@ -74,7 +75,15 @@ const Home = (isLoggedIn) => {
                                     <>
                                         <div key={index} className="col-md-3 mb-3">
                                             <div
-                                                onClick={() => navigate("/bidding", { state: { item } })}
+                                                onClick={() => {
+                                                    if(!userEmail){
+                                                        alert("You need to login first.")
+                                                        navigate("/login")
+                                                    }else{
+                                                        navigate("/bidding", { state: { item } 
+                                                    })
+                                                }
+                                            }}
                                                 style={{ cursor: "pointer" }}
                                             >
                                                 <div className="card">
