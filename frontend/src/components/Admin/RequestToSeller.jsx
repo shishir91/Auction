@@ -9,7 +9,10 @@ const RequestToSeller = () => {
   async function approveUser(userId){
     const response = await api.get(`/admin/changeUsertoSeller?id=${userId}`)
     alert("User Approved");
-    navigate("/admin")
+  }
+  async function declineUser(userId){
+    const response = await api.get(`/admin/declineSeller?id=${userId}`)
+    alert("User Declined");
   }
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const RequestToSeller = () => {
                 <td><img src={user.identity} alt="" width="50px"/></td>
                 <td>
                     <button className='btn btn-success mx-1' onClick={()=>approveUser(user.id)}>Approve</button>
-                    <button className='btn btn-danger mx-1'>Decline</button>
+                    <button className='btn btn-danger mx-1' onClick={()=>declineUser(user.id)}>Decline</button>
                   </td>
               </tr>
             ))}
