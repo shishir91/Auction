@@ -66,6 +66,7 @@ const Login = () => {
                 localStorage.setItem('login', isLoggedIn);
                 localStorage.setItem('isAdmin', Admin)
                 localStorage.setItem('Seller', Seller)
+                localStorage.setItem('Phone', data.user_phone)
                 localStorage.setItem('userEmail', data.user_email)
                 localStorage.setItem('username', data.user_name)
                 localStorage.setItem('userID', data.user_id)

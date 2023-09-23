@@ -84,6 +84,7 @@ export default class UserController {
             req.session.user_id = user.id;
             req.session.user_name = user.fullname;
             req.session.user_email = user.email;
+            req.session.user_phone = user.phone;
             req.session.user_type = user.type;
             req.session.user_status = user.status;
             console.log(req.session)
