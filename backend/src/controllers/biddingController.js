@@ -35,4 +35,23 @@ export default class BiddingController {
                 console.error('Error:', error);
             });
     }
+
+    async deleteBids(req, res){
+        const {item} = req.params
+        try{
+            const data = bidModel.destroy({
+                where:{
+                    item
+                }
+            });
+            if (data){
+                res.json({success: true, message: "Bids deleted"})
+            }else{
+                res.json({success: false, message: "Cannot Delete Bids"})
+            }
+        }catch(err){
+            console.log(err);
+            res.json({success: false, message: `Error Deleting Bids ${err}`})
+        }
+    }
 }

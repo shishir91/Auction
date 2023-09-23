@@ -29,4 +29,6 @@ router.get("/logout", userController.logout);
 
 router.post("/uploadIdentity", imageUpload, userController.uploadIdentity);
 
+router.get("/highestBidderDetail/:id", userController.highestBidderDetail);
+
 export default router;

@@ -184,15 +184,21 @@ export default class ItemController {
     }
 
     async itemSold(req, res){
-        const {id} = req.body;
+        const {id, soldTo, soldPrice} = req.body;
+        console.log(req.body);
         try{
             const data = await itemModel.update({
-                status: sold,
+                status: "sold",
+                soldPrice,
+                soldTo,
             },{
                 where:{
                     id
                 }
             })
+            if(data){
+                res.json({success: true, message: "Item Sold!"})
+            }
         }catch(err){
             console.log(err);
         }

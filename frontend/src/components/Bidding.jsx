@@ -11,9 +11,10 @@ const Bidding = () => {
     const [bid, setBid] = useState()
     const [highBid, setHigBid] = useState(item.basePrice)
     const [basePrice, setBasePrice] = useState(highBid); // Added basePrice state
-    const [currentBidder, setCurrentBidder] = useState("");
+    const [currentBidder, setCurrentBidder] = useState();
     const [bidTime, setBidTime] = useState();
     const [itemresp, setitemresp] = useState();
+    const [lastBidder, setLastBidder] = useState();
     const username = localStorage.getItem("username");
     const userEmail = localStorage.getItem("userEmail");
 
@@ -105,10 +106,10 @@ const Bidding = () => {
                 const response = await api.get(`/bidding/getHighestBid/${itemID}`)
                 const itemres = await api.get(`/item/item/${itemID}`)
                 try {
-                    setHigBid(response.data.data.bid)
-                    setCurrentBidder(response.data.data.user);
                     setitemresp(itemres.data.status)
                     setBidTime(itemres.data.auctionDuration)
+                    setHigBid(response.data.data.bid)
+                    setCurrentBidder(response.data.data.user);
                     console.log(itemres.data.auctionDuration)
                     console.log("Its set bid time", setBidTime)
                     console.log("Its bid time", bidTime)
@@ -132,11 +133,23 @@ const Bidding = () => {
 
     const originalTime = bidTime * 60 * 1000;
 
-    setTimeout(() => {
-
-
+    async function asd() {
         console.log("This code runs after 20 seconds");
-    }, originalTime);
+        console.log(currentBidder);
+        const highestBidderDetail = await api.get(`/highestBidderDetail/${currentBidder}`)
+        console.log(highestBidderDetail.data);
+        const soldItem = await api.post("/item/itemSold", { id: itemID, soldTo: highestBidderDetail.data.email, soldPrice: highBid })
+        await api.delete(`/bidding/deleteBids/${itemID}`)
+        console.log(soldItem);
+    };
+
+    // useEffect(() => {
+    if (itemresp === "bidding") {
+        setTimeout(() => {
+            asd();
+        }, originalTime);
+    };
+    // }, []);
 
     return (
         <div>
@@ -158,79 +171,91 @@ const Bidding = () => {
                             }}
                         />
                     </div>
-                    <h4 className="mt-3">Base Price</h4>
+                    <h4 className="mt-3 fw-bold">Base Price</h4>
                     <h5>$ {item.basePrice}
                     </h5>
                     {(checkSeller()) === true ?
                         <div>
-                            {(checkTime()) === true ?
+                            {(itemresp) === "sold" ?
                                 <div>
-                                    {(itemresp) === "bidding" ?
-                                        <div>
-                                            <h4 className="mt-3">Current Bid</h4>
-                                            <h5>$ {highBid}
-                                            </h5>
-                                            <h4 className="mt-2">Current Bidder</h4>
-                                            <h5>Bidder ID: {currentBidder}</h5>
-                                            <div style={{ marginTop: "1rem" }}>
-                                                <button disabled className="btn btn-primary">Start Bidding</button>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div>
-                                            <h4 className="mt-3">Current Bid</h4>
-                                            <h5>$ {highBid}
-                                            </h5>
-                                            <h4 className="mt-3">Current Bidder</h4>
-                                            <h5>{currentBidder}</h5>
-                                            <div style={{ marginTop: "1rem" }}>
-                                                <button onClick={startBidding} className="btn btn-primary">Start Bidding</button>
-                                            </div>
-                                        </div>
-                                    }
+                                    <h5 className="fw-bold">Item sold to user ID {currentBidder}</h5>
+                                    <h5>At $ {highBid}</h5>
                                 </div>
                                 :
                                 <div>
-                                    <div>Auction is not started yet</div>
-                                    <div>Auction Date: {item.auctionDate}</div>
-                                    <div>Auction Time: {item.auctionTime}</div>
-                                    <button disabled className="btn btn-primary">Start Bidding</button>
+                                    {(checkTime()) === true ?
+                                        <div>
+                                            {(itemresp) === "bidding" ?
+                                                <div>
+                                                    <h4 className="mt-3 fw-bold">Current Bid</h4>
+                                                    <h5>$ {highBid}
+                                                    </h5>
+                                                    <h4 className="mt-2 fw-bold">Current Bidder</h4>
+                                                    <h5>Bidder ID: {currentBidder}</h5>
+                                                    <div style={{ marginTop: "1rem" }}>
+                                                        <button disabled className="btn btn-primary">Start Bidding</button>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <div style={{ marginTop: "1rem" }}>
+                                                        <button onClick={startBidding} className="btn btn-primary">Start Bidding</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                        :
+                                        <div>
+                                            <div className="fw-bold">Auction is not started yet</div>
+                                            <div>Auction Date: {item.auctionDate}</div>
+                                            <div>Auction Time: {item.auctionTime}</div>
+                                            <button disabled className="btn btn-primary">Start Bidding</button>
+                                        </div>
+                                    }
                                 </div>
                             }
                         </div>
-
                         :
                         <div>
-                            {(checkTime()) === true ?
+                            {(itemresp) === "sold" ?
                                 <div>
-                                    {(itemresp) === "bidding" ?
-                                        <div>
-                                            <h4 className="mt-3">Current Bid</h4>
-                                            <h5>$ {highBid}
-                                            </h5>
-                                            <div style={{ marginTop: "1rem" }}>
-                                                <form action="post" onSubmit={placeBid}>
-                                                    <h4 className="mt-2">Current Bidder</h4>
-                                                    <h5>Bidder ID: {currentBidder}</h5>
-                                                    <h6>Submit Your Bid</h6>
-                                                    <input type="number" className="p-2" onChange={(event) => { setBid(event.target.value) }} />{" "}
-                                                    <button className="p-2 btn btn-success">Place Bid</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div>
-                                            <div>Starting Soon....</div>
-                                            <input readOnly type="number" className="p-2" />{" "}
-                                            <button disabled className="p-2 btn btn-success">Place Bid</button>
-                                        </div>
-                                    }
+                                    <h5 className="fw-bold">Item sold to user ID {currentBidder}</h5>
+                                    <h5>At $ {highBid}</h5>
                                 </div>
                                 :
                                 <div>
-                                    <div>Auction is not started yet</div>
-                                    <div>Auction Date: {item.auctionDate}</div>
-                                    <div>Auction Time: {item.auctionTime}</div>
+                                    {(checkTime()) === true ?
+                                        <div>
+                                            {(itemresp) === "bidding" ?
+                                                <div>
+                                                    <h4 className="mt-3 fw-bold">Current Bid</h4>
+                                                    <h5>$ {highBid}
+                                                    </h5>
+                                                    <div style={{ marginTop: "1rem" }}>
+                                                        <form action="post" onSubmit={placeBid}>
+                                                            <h4 className="mt-2 fw-bold">Current Bidder</h4>
+                                                            <h5>Bidder ID: {currentBidder}</h5>
+                                                            <h6 className="fw-bold">Submit Your Bid</h6>
+                                                            <input type="number" className="p-2" onChange={(event) => { setBid(event.target.value) }} />{" "}
+                                                            <button className="p-2 btn btn-success">Place Bid</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <h5 className="fw-bold">Auction is Starting Soon....</h5>
+                                                    {/* <input readOnly type="number" className="p-2" />{" "}
+                                                    <button disabled className="p-2 btn btn-success">Place Bid</button> */}
+                                                </div>
+                                            }
+                                        </div>
+                                        :
+                                        <div>
+                                            <div className="fw-bold">Auction is not started yet</div>
+                                            <div>Auction Date: {item.auctionDate}</div>
+                                            <div>Auction Time: {item.auctionTime}</div>
+                                        </div>
+                                    }
                                 </div>
                             }
                         </div>

@@ -193,5 +193,17 @@ export default class UserController {
         }
     }
 
+    async highestBidderDetail(req,res){
+        const {id} = req.params;
+        try{
+            const data = await userModel.findByPk(id);
+            if(data){
+                res.json(data)
+            }
+        }catch(err){
+            console.log(err);
+        }
+
+    }
 
 }
