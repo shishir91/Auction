@@ -12,4 +12,6 @@ router.delete("/deleteUser", adminController.deleteUser);
 
 router.post("/blockUser", adminController.blockUser);
 
+router.get("/requestedUser", adminController.requestedUser);
+
 export default router;

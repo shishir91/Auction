@@ -29,7 +29,8 @@ export default class AdminController {
             res.json({ success: false, message: "No user selected" });
         } else {
             const data = await userModel.update({
-                type: "seller"
+                type: "seller",
+                status: "active"
             }, {
                 where: {
                     id
@@ -72,4 +73,17 @@ export default class AdminController {
             res.json({ success: false, message: "Unable to Block User" })
         }
     }
+
+    async requestedUser(req, res){
+        const data = await userModel.findAll({
+            where:{
+                status: "pending"
+            },
+            raw: true
+        })
+        if(data){
+            res.json(data)
+        }
+    }
+
 }

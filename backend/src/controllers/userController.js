@@ -174,16 +174,18 @@ export default class UserController {
     };
 
     async uploadIdentity(req, res) {
+        const {userEmail} = req.query
         if (!req.file) {
             console.log("File Empty");
             res.json({ success: false, message: "Upload your Identity" })
         } else {
             console.log(req.file);
             const data = await userModel.update({
-                identity: req.file.filename
+                identity: req.file.filename,
+                status: "pending"
             }, {
                 where: {
-                    id: req.session.user_id
+                    email: userEmail
                 }
             });
             if (data) {
