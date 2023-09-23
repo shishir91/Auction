@@ -115,17 +115,12 @@ export default class ItemController {
                 },
                 raw: true
             });
-            if (data.length > 0) {
-                console.log(data);
-                for (let d of data) {
-                    d.image = "http://localhost:5000/uploads/" + d.image
-                    console.log(d.image);
-                }
-                res.json(data);
-            } else {
-                res.json("No Data Found")
-                console.log("No Data Found");
+            console.log(data);
+            for (let d of data) {
+                d.image = "http://localhost:5000/uploads/" + d.image
+                console.log(d.image);
             }
+            res.json(data);
         }
         else {
             res.json({ success: false, message: "Empty Search String" })
@@ -133,7 +128,7 @@ export default class ItemController {
     }
 
     async getMyUploads(req, res) {
-        const { userEmail } = req.body;
+        const { userEmail } = req.query;
 
         const data = await itemModel.findAll({
             where: {
@@ -150,7 +145,7 @@ export default class ItemController {
     }
 
     async getMyPurchases(req, res) {
-        const { userEmail } = req.body;
+        const { userEmail } = req.query;
         try {
             const data = await itemModel.findAll({
                 where: {
@@ -168,38 +163,38 @@ export default class ItemController {
         }
     }
 
-    async startBidding(req, res){
-        const {id} = req.body;
-        try{
+    async startBidding(req, res) {
+        const { id } = req.body;
+        try {
             const data = await itemModel.update({
                 status: "bidding",
-            },{
-                where:{
+            }, {
+                where: {
                     id
                 }
             })
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
-    async itemSold(req, res){
-        const {id, soldTo, soldPrice} = req.body;
+    async itemSold(req, res) {
+        const { id, soldTo, soldPrice } = req.body;
         console.log(req.body);
-        try{
+        try {
             const data = await itemModel.update({
                 status: "sold",
                 soldPrice,
                 soldTo,
-            },{
-                where:{
+            }, {
+                where: {
                     id
                 }
             })
-            if(data){
-                res.json({success: true, message: "Item Sold!"})
+            if (data) {
+                res.json({ success: true, message: "Item Sold!" })
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }

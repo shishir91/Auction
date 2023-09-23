@@ -8,4 +8,8 @@ router.get("/userList", adminController.userList);
 
 router.get("/changeUsertoSeller", adminController.changeUsertoSeller);
 
+router.delete("/deleteUser", adminController.deleteUser);
+
+router.post("/blockUser", adminController.blockUser);
+
 export default router;

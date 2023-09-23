@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import api from "../../api/config.js";
 import Demo from "../../images/auction.png";
 import "./UserDashboard.css"
 // import {
@@ -17,16 +18,41 @@ const UserProfile = () => {
     const userEmail = localStorage.getItem("userEmail")
     const Phone = localStorage.getItem("Phone")
     const userSeller = localStorage.getItem("Seller")
+    const [myUploads, setMyUploads] = useState([]);
+    const [myPurchases, setMyPurchases] = useState([]);
 
+    useEffect(() => {
+        async function fetchMyUploads() {
+            try {
+                const response = await api.get(`/item/myUploads?userEmail=${userEmail}`);
+                console.log(response.data);
+                setMyUploads(response.data);
+            } catch (error) {
+                console.error("Error fetching items:", error);
+            }
+        }
+        fetchMyUploads();
+    }, []);
 
+    useEffect(() => {
+        async function fetchMyPurchases() {
+            try {
+                const response = await api.get(`/item/myPurchases?userEmail=${userEmail}`);
+                console.log(response.data);
+                setMyPurchases(response.data);
+            } catch (error) {
+                console.error("Error fetching items:", error);
+            }
+        }
+        fetchMyPurchases();
+    }, []);
 
     return (
         <div className="Dashboard d-flex justify-content-center align-item-center flex-wrap">
             <div className="container text-center">
                 <div className="row mb-2 border-bottom border-black">
-                    <div className="col-md-4">
-                        <img src={Demo} alt="" style={{ width: "10rem" }} />
-                        <h4 className="item-center">Name</h4>
+                    <div className="d-flex justify-content-between">
+                        <h3>My Profile</h3>
                     </div>
                     <div className="col-md-8 d-flex justify-content-start mt-3">
                         <div>
@@ -56,145 +82,55 @@ const UserProfile = () => {
                             <Link to="/auctionpanel"> <button className="btn Auction_Button">Create Auction</button></Link>
                         </div>
                         <div className=" d-flex overflow-x-scroll">
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
+                            {myUploads.length > 0 ?
+                                myUploads.sort((a, b) => b.id - a.id).map((item, index) => {
+                                    return (
+                                        <>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                                <div className="">
+                                                    <h6 className="">{item.name}</h6>
+                                                    <h6>Base Price: {item.basePrice}</h6>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })
+                                :
+                                <div>
+                                    <center>
+                                        <h5 className='fw-bold'>
+                                            You Have Not Uploaded Any Items
+                                        </h5>
+                                    </center>
                                 </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
                     <div className="container pb-3 border-bottom border-black ">
                         <h3>My Purchases</h3>
                         <div className=" d-flex overflow-x-scroll">
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
+                            {myPurchases.length > 0 ?
+                                myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
+                                    return (
+                                        <>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                                <div className="d-flex">
+                                                    <h6 className="mx-3">Item Name</h6>
+                                                    <h6>Price Saled on</h6>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })
+                                :
+                                <div>
+                                    <center>
+                                        <h5 className='fw-bold'>
+                                            You Have Not Purchased Any Items
+                                        </h5>
+                                    </center>
                                 </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
                 </div>
@@ -207,73 +143,28 @@ const UserProfile = () => {
                     <div className="container pb-3 border-bottom border-black ">
                         <h3>My Purchases</h3>
                         <div className=" d-flex overflow-x-scroll">
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
+                            {myPurchases.length > 0 ?
+                                myPurchases.sort((a, b) => b.id - a.id).map((item, index) => {
+                                    return (
+                                        <>
+                                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
+                                                <div className="d-flex">
+                                                    <h6 className="mx-3">Item Name</h6>
+                                                    <h6>Price Saled on</h6>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })
+                                :
+                                <div>
+                                    <center>
+                                        <h5 className='fw-bold'>
+                                            You Have Not Purchased Any Items
+                                        </h5>
+                                    </center>
                                 </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-                            <div className=" mb-3 mx-3 px-3" style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}> <Link to=""><img src={Demo} alt="" style={{ width: "10rem", }} /></Link>
-                                <div className="d-flex">
-                                    <h6 className="mx-3">Item Name</h6>
-                                    <h6>Price Saled on</h6>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
                 </div>
