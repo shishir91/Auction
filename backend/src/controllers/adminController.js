@@ -1,8 +1,17 @@
 import userModel from "../models/userModel.js";
+import { Op } from "sequelize";
 
 export default class AdminController {
     async userList(req, res) {
-        const data = await userModel.findAll({ raw: true });
+        const data = await userModel.findAll({
+            where: {
+              type: {
+                [Op.or]: ['user', 'seller'],
+              },
+            },
+            raw: true
+          })
+        
         if (data) {
             for (let d of data) {
                 d.identity = "http://localhost:5000/uploads/" + d.identity
@@ -43,8 +52,8 @@ export default class AdminController {
         });
         if (data) {
             res.json({ success: true, message: "User Deleted" })
-        }else{
-            res.json({success: false, message: "Unable to Delete User"})
+        } else {
+            res.json({ success: false, message: "Unable to Delete User" })
         }
     }
 
@@ -57,10 +66,10 @@ export default class AdminController {
                 id
             }
         });
-        if(data){
-            res.json({success: true, message: "User Blocked"})
-        }else{
-            res.json({success: false, message: "Unable to Block User"})
+        if (data) {
+            res.json({ success: true, message: "User Blocked" })
+        } else {
+            res.json({ success: false, message: "Unable to Block User" })
         }
     }
 }

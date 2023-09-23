@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ItemList from './ItemList';
 import UserList from './UserList';
+import RequestToSeller from './RequestToSeller';
 
 const Admin = () => {
   const [selectedOption, setSelectedOption] = useState('itemlist'); // Default to 'itemlist'
@@ -14,10 +15,10 @@ const Admin = () => {
   };
 
   return (
-    <div className="container " style={{ backgroundColor: "#00ADB5", color: "#222831", height: "100vh"}} >
-      <h4 style={{borderBottom: "2px solid black"}} className='item-center'>Admin Panel</h4>
+    <div className="container " style={{ backgroundColor: "#00ADB5", color: "#222831", height: "100vh" }} >
+      <h4 style={{ borderBottom: "2px solid black" }} className='item-center'>Admin Panel</h4>
       <div className="row">
-        <div className="col-md-3 " style={{borderRight: "2px solid black", backgroundColor: "#393E46", color: "#EEEEEE", height: "44.9vh"}}>
+        <div className="col-md-3 " style={{ borderRight: "2px solid black", backgroundColor: "#393E46", color: "#EEEEEE", height: "44.9vh" }}>
           <div className="admin">
             <div className="row admin-row" >
               <div className="column-1 col-md-12 " >
@@ -34,6 +35,12 @@ const Admin = () => {
                 >
                   <i className="mx-3 fa-solid fa-users"></i> Users List
                 </h5>
+                <h5
+                  style={selectedOption === 'requestToSeller' ? { ...headingStyle, fontWeight: 'bold' } : headingStyle}
+                  onClick={() => handleOptionClick('requestToSeller')}
+                >
+                  <i class="mx-3 fa-solid fa-user-gear"></i> Requests to Seller
+                </h5>
               </div>
             </div>
           </div>
@@ -42,6 +49,7 @@ const Admin = () => {
           {/* Render the selected component here */}
           {selectedOption === 'itemlist' && <ItemList />}
           {selectedOption === 'userlist' && <UserList />}
+          {selectedOption === 'requestToSeller' && <RequestToSeller />}
         </div>
       </div>
     </div>

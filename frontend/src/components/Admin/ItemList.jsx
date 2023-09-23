@@ -24,8 +24,11 @@ const ItemList = () => {
             <tr>
               <th>Name</th>
               <th>Artist Name</th>
-              <th>Initial Bid Price</th>
-              <th>Added Date</th>
+              <th>Uploaded By</th>
+              <th>Satus</th>
+              <th>Base Price</th>
+              <th>Sold Price</th>
+              <th>Sold To</th>
             </tr>
           </thead>
           <tbody>
@@ -33,8 +36,11 @@ const ItemList = () => {
               <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.artist}</td>
+                <td>{item.uploadedBy}</td>
+                <td>{item.status}</td>
                 <td>{item.basePrice}</td>
-                <td>{item.createdAt}</td>
+                <td>{item.soldPrice}</td>
+                <td>{item.soldTo}</td>
               </tr>
             ))}
           </tbody>
