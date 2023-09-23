@@ -8,6 +8,8 @@ router.get("/userList", adminController.userList);
 
 router.get("/changeUsertoSeller", adminController.changeUsertoSeller);
 
+router.get("/declineSeller", adminController.declineSeller);
+
 router.delete("/deleteUser", adminController.deleteUser);
 
 router.post("/blockUser", adminController.blockUser);

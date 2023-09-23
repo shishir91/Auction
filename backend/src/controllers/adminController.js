@@ -5,13 +5,13 @@ export default class AdminController {
     async userList(req, res) {
         const data = await userModel.findAll({
             where: {
-              type: {
-                [Op.or]: ['user', 'seller'],
-              },
+                type: {
+                    [Op.or]: ['user', 'seller'],
+                },
             },
             raw: true
-          })
-        
+        })
+
         if (data) {
             for (let d of data) {
                 d.identity = "http://localhost:5000/uploads/" + d.identity
@@ -38,6 +38,25 @@ export default class AdminController {
             });
             if (data) {
                 res.json({ success: true, message: "User is now Seller" });
+            } else {
+                res.json({ success: false, message: "Cannot change the user" });
+            }
+        }
+    }
+    async declineSeller(req, res) {
+        const { id } = req.query;
+        if (!id) {
+            res.json({ success: false, message: "No user selected" });
+        } else {
+            const data = await userModel.update({
+                status: "active"
+            }, {
+                where: {
+                    id
+                }
+            });
+            if (data) {
+                res.json({ success: true, message: "User is Declined" });
             } else {
                 res.json({ success: false, message: "Cannot change the user" });
             }
@@ -74,16 +93,18 @@ export default class AdminController {
         }
     }
 
-    async requestedUser(req, res){
+    async requestedUser(req, res) {
         const data = await userModel.findAll({
-            where:{
+            where: {
                 status: "pending"
             },
             raw: true
         })
-        if(data){
-            res.json(data)
+        for (let d of data) {
+            d.identity = "http://localhost:5000/uploads/" + d.identity
+            // console.log(d.image);
         }
+        res.json(data)
     }
 
 }
