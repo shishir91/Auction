@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Demo from "../images/auction.png";
 import api from "../api/config.js";
-
-
 
 const Bidding = () => {
     const item = useLocation().state.item;
@@ -14,7 +11,6 @@ const Bidding = () => {
     const [currentBidder, setCurrentBidder] = useState();
     const [bidTime, setBidTime] = useState();
     const [itemresp, setitemresp] = useState();
-    const [lastBidder, setLastBidder] = useState();
     const username = localStorage.getItem("username");
     const userEmail = localStorage.getItem("userEmail");
 
@@ -38,6 +34,7 @@ const Bidding = () => {
             return true
         }
     }
+
     function checkSeller() {
         if (item.uploadedBy == userEmail) {
             return true
@@ -320,9 +317,6 @@ const Bidding = () => {
         </div>
     );
 };
-
-
-
 
 
 export default Bidding;
