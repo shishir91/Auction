@@ -175,6 +175,7 @@ export default class UserController {
 
     async uploadIdentity(req, res) {
         const {userEmail} = req.query
+        console.log(userEmail)
         if (!req.file) {
             console.log("File Empty");
             res.json({ success: false, message: "Upload your Identity" })
