@@ -5,10 +5,32 @@ import axios from 'axios';
 const UserList = () => {
   const [userList, setUserList] = useState([]);
 
+  async function deleteUser(userId, username) {
+    const response = await api.delete(`/admin/deleteUser?id=${userId}`)
+    if (response.data.success === true) {
+      alert("User Deleted");
+    }
+  }
+  async function blockUser(userId, username) {
+    const response = await api.post(`/admin/blockUser?id=${userId}`)
+    if (response.data.success === true) {
+      alert("User Blocked");
+
+    }
+  }
+
+  async function unblockUser(userId, username) {
+    const response = await api.post(`/admin/unblockUser?id=${userId}`)
+    if (response.data.success === true) {
+      alert("User Unblocked");
+
+    }
+  }
+
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await api.get('/admin/userList'); // Update with your API endpoint
+        const response = await api.get('/admin/userList');
         setUserList(response.data);
       } catch (error) {
         console.error('Error fetching user list:', error);
@@ -16,7 +38,7 @@ const UserList = () => {
     }
 
     fetchUsers();
-  }, []);
+  }, [userList]);
 
   return (
     <div>
@@ -41,8 +63,13 @@ const UserList = () => {
                   <td>{user.phone}</td>
                   <td>{user.type}</td>
                   <td>
-                    <button className='btn btn-danger mx-1'>Delete</button>
-                    <button className='btn btn-danger mx-1'>Block</button>
+                    <button className='btn btn-danger mx-1' onClick={() => deleteUser(user.id, user.fullname)}>Delete</button>
+                    {
+                      (user.status) == "blocked"?
+                      <button className='btn btn-danger mx-1' onClick={() => unblockUser(user.id, user.fullname)}>Unblock</button>
+                      :  
+                      <button className='btn btn-danger mx-1' onClick={() => blockUser(user.id, user.fullname)}>Block</button>
+                    }
                   </td>
                 </tr>
               ))}

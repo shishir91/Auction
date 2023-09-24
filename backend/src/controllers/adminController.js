@@ -93,6 +93,22 @@ export default class AdminController {
         }
     }
 
+    async unblockUser(req, res) {
+        const { id } = req.query
+        const data = await userModel.update({
+            status: "active"
+        }, {
+            where: {
+                id
+            }
+        });
+        if (data) {
+            res.json({ success: true, message: "User Blocked" })
+        } else {
+            res.json({ success: false, message: "Unable to Block User" })
+        }
+    }
+
     async requestedUser(req, res) {
         const data = await userModel.findAll({
             where: {

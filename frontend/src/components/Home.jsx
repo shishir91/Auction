@@ -86,8 +86,8 @@ const Home = (isLoggedIn) => {
                                             }}
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                <div className="card">
-                                                    <img src={item.image} className="card-img-top" alt={item.name} />
+                                                <div className="card" style={{border: "none", margin: "0.4rem", boxShadow:" rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px"}}>
+                                                    <img src={item.image} className="card-img-top" alt={item.name} style={{height: "10rem", width: "fit-content"}}/>
                                                     <div className="card-body">
                                                         <h5 style={{ fontWeight: 'bold' }} className="card-title">{item.name}</h5>
                                                         <p className="card-text">By: {item.artist}</p>
